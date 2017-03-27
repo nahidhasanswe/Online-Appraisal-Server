@@ -1,0 +1,1425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AppraisalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="isLocked" Type="bit" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DepartmentConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DepartmentId" Type="uniqueidentifier" />
+          <Property Name="JobObjectiveDeadline" Type="datetime" />
+          <Property Name="SelfAppraisalDeadline" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DirectorActivities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="30" />
+          <Property Name="FiscalYearId" Type="varchar" MaxLength="20" />
+          <Property Name="YearlyBudget" Type="int" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="100" />
+          <Property Name="DesignationId" Type="uniqueidentifier" />
+          <Property Name="SectionId" Type="uniqueidentifier" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Salary" Type="int" />
+          <Property Name="JoiningDate" Type="datetime" />
+          <Property Name="ReportTo" Type="varchar" MaxLength="30" />
+          <Property Name="Location" Type="varchar" MaxLength="120" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="JobObjectiveDeadline" Type="datetime" />
+          <Property Name="SelfAppraisalDeadline" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FiscalYear">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FiscalYearStart" Type="datetime" />
+          <Property Name="FiscalYearEnd" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="HeadOfBusinessUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="30" />
+          <Property Name="EllocatedBudget" Type="int" />
+          <Property Name="FiscalYearId" Type="varchar" MaxLength="20" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Increament">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LowerScore" />
+            <PropertyRef Name="UpperScore" />
+            <PropertyRef Name="Promotion" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LowerScore" Type="int" Nullable="false" />
+          <Property Name="UpperScore" Type="int" Nullable="false" />
+          <Property Name="Promotion" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="JobDescription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="30" />
+          <Property Name="JobPurposes" Type="varchar" MaxLength="200" />
+          <Property Name="KeyAccountabilities" Type="varchar" MaxLength="120" />
+          <Property Name="IsReportToConfirmed" Type="bit" />
+          <Property Name="IsHOBUConfirmed" Type="bit" />
+          <Property Name="ReportToConfirmedDate" Type="datetime" />
+          <Property Name="HOBUConfirmedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ObjectiveMain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="OverallScore" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OverallComment" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="PersonalDevelopmentPlan" Type="nvarchar(max)" />
+          <Property Name="TotalScore" Type="int" />
+        </EntityType>
+        <EntityType Name="ObjectiveSub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ObjectiveMainId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="KPI" Type="varchar" MaxLength="200" />
+          <Property Name="Weight" Type="int" />
+          <Property Name="Note" Type="varchar" MaxLength="300" />
+          <Property Name="SelfAppraisal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Comments" Type="varchar" MaxLength="200" />
+          <Property Name="EvidenceFile" Type="varchar" MaxLength="200" />
+          <Property Name="IsObjectiveApproved" Type="bit" />
+          <Property Name="PerfomenseAppraisal" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PerfomenseAppraisalDate" Type="datetime" />
+          <Property Name="PerfomenseAppraisalBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Target" Type="nvarchar" MaxLength="150" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Score" Type="int" />
+        </EntityType>
+        <EntityType Name="PerformanceAppraisal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="30" />
+          <Property Name="CurrentSalary" Type="int" />
+          <Property Name="FinanalAppraisal" Type="int" />
+          <Property Name="SalaryIncreament" Type="int" />
+          <Property Name="SalaryIncreamentPercentage" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="ProposedSalary" Type="int" />
+          <Property Name="ProposeDesignationId" Type="uniqueidentifier" />
+          <Property Name="Note" Type="varchar" MaxLength="200" />
+          <Property Name="FiscalYearId" Type="varchar" MaxLength="20" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DeparmentId" Type="uniqueidentifier" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentConfig_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="DepartmentConfig" Type="Self.DepartmentConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DepartmentConfig">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DirectorActivities_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="DirectorActivities" Type="Self.DirectorActivities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="DirectorActivities">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DirectorActivities_FiscalYear">
+          <End Role="FiscalYear" Type="Self.FiscalYear" Multiplicity="0..1" />
+          <End Role="DirectorActivities" Type="Self.DirectorActivities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FiscalYear">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectorActivities">
+              <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Designation">
+          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="ReportTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Section">
+          <End Role="Section" Type="Self.Section" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HeadOfBusinessUnit_FiscalYear">
+          <End Role="FiscalYear" Type="Self.FiscalYear" Multiplicity="0..1" />
+          <End Role="HeadOfBusinessUnit" Type="Self.HeadOfBusinessUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FiscalYear">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HeadOfBusinessUnit">
+              <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobDescription_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="JobDescription" Type="Self.JobDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="JobDescription">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObjectiveMain_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="ObjectiveMain" Type="Self.ObjectiveMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ObjectiveMain">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObjectiveSub_ObjectiveMain">
+          <End Role="ObjectiveMain" Type="Self.ObjectiveMain" Multiplicity="1" />
+          <End Role="ObjectiveSub" Type="Self.ObjectiveSub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectiveMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ObjectiveSub">
+              <PropertyRef Name="ObjectiveMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceAppraisal_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="PerformanceAppraisal" Type="Self.PerformanceAppraisal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="PerformanceAppraisal">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceAppraisal_FiscalYear">
+          <End Role="FiscalYear" Type="Self.FiscalYear" Multiplicity="0..1" />
+          <End Role="PerformanceAppraisal" Type="Self.PerformanceAppraisal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FiscalYear">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PerformanceAppraisal">
+              <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Section" Type="Self.Section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section">
+              <PropertyRef Name="DeparmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AppraisalModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DepartmentConfig" EntityType="Self.DepartmentConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DirectorActivities" EntityType="Self.DirectorActivities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FiscalYear" EntityType="Self.FiscalYear" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HeadOfBusinessUnit" EntityType="Self.HeadOfBusinessUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobDescription" EntityType="Self.JobDescription" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObjectiveMain" EntityType="Self.ObjectiveMain" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObjectiveSub" EntityType="Self.ObjectiveSub" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PerformanceAppraisal" EntityType="Self.PerformanceAppraisal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Increament" EntityType="Self.Increament" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Increament].[Id] AS [Id], 
+    [Increament].[LowerScore] AS [LowerScore], 
+    [Increament].[UpperScore] AS [UpperScore], 
+    [Increament].[Promotion] AS [Promotion], 
+    [Increament].[CreatedBy] AS [CreatedBy], 
+    [Increament].[CreatedDate] AS [CreatedDate], 
+    [Increament].[UpdatedBy] AS [UpdatedBy], 
+    [Increament].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[Increament] AS [Increament]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentConfig_Department" Association="Self.FK_DepartmentConfig_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="DepartmentConfig" EntitySet="DepartmentConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DirectorActivities_Employee" Association="Self.FK_DirectorActivities_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DirectorActivities" EntitySet="DirectorActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DirectorActivities_FiscalYear" Association="Self.FK_DirectorActivities_FiscalYear">
+            <End Role="FiscalYear" EntitySet="FiscalYear" />
+            <End Role="DirectorActivities" EntitySet="DirectorActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Designation" Association="Self.FK_Employee_Designation">
+            <End Role="Designation" EntitySet="Designation" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Employee" Association="Self.FK_Employee_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Section" Association="Self.FK_Employee_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HeadOfBusinessUnit_FiscalYear" Association="Self.FK_HeadOfBusinessUnit_FiscalYear">
+            <End Role="FiscalYear" EntitySet="FiscalYear" />
+            <End Role="HeadOfBusinessUnit" EntitySet="HeadOfBusinessUnit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobDescription_Employee" Association="Self.FK_JobDescription_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="JobDescription" EntitySet="JobDescription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObjectiveMain_Employee" Association="Self.FK_ObjectiveMain_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ObjectiveMain" EntitySet="ObjectiveMain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObjectiveSub_ObjectiveMain" Association="Self.FK_ObjectiveSub_ObjectiveMain">
+            <End Role="ObjectiveMain" EntitySet="ObjectiveMain" />
+            <End Role="ObjectiveSub" EntitySet="ObjectiveSub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceAppraisal_Employee" Association="Self.FK_PerformanceAppraisal_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="PerformanceAppraisal" EntitySet="PerformanceAppraisal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceAppraisal_FiscalYear" Association="Self.FK_PerformanceAppraisal_FiscalYear">
+            <End Role="FiscalYear" EntitySet="FiscalYear" />
+            <End Role="PerformanceAppraisal" EntitySet="PerformanceAppraisal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Department" Association="Self.FK_Section_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Section" EntitySet="Section" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AppraisalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AppraisalDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="AppraisalModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="AppraisalModel.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="AppraisalModel.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="AppraisalModel.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="AppraisalModel.AspNetUsers" />
+          <EntitySet Name="Department" EntityType="AppraisalModel.Department" />
+          <EntitySet Name="DepartmentConfig" EntityType="AppraisalModel.DepartmentConfig" />
+          <EntitySet Name="Designation" EntityType="AppraisalModel.Designation" />
+          <EntitySet Name="DirectorActivities" EntityType="AppraisalModel.DirectorActivities" />
+          <EntitySet Name="Employee" EntityType="AppraisalModel.Employee" />
+          <EntitySet Name="FiscalYear" EntityType="AppraisalModel.FiscalYear" />
+          <EntitySet Name="HeadOfBusinessUnit" EntityType="AppraisalModel.HeadOfBusinessUnit" />
+          <EntitySet Name="JobDescription" EntityType="AppraisalModel.JobDescription" />
+          <EntitySet Name="ObjectiveMain" EntityType="AppraisalModel.ObjectiveMain" />
+          <EntitySet Name="ObjectiveSub" EntityType="AppraisalModel.ObjectiveSub" />
+          <EntitySet Name="PerformanceAppraisal" EntityType="AppraisalModel.PerformanceAppraisal" />
+          <EntitySet Name="Section" EntityType="AppraisalModel.Section" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="AppraisalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="AppraisalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentConfig_Department" Association="AppraisalModel.FK_DepartmentConfig_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="DepartmentConfig" EntitySet="DepartmentConfig" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Section_Department" Association="AppraisalModel.FK_Section_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Section" EntitySet="Section" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Designation" Association="AppraisalModel.FK_Employee_Designation">
+            <End Role="Designation" EntitySet="Designation" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DirectorActivities_Employee" Association="AppraisalModel.FK_DirectorActivities_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="DirectorActivities" EntitySet="DirectorActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DirectorActivities_FiscalYear" Association="AppraisalModel.FK_DirectorActivities_FiscalYear">
+            <End Role="FiscalYear" EntitySet="FiscalYear" />
+            <End Role="DirectorActivities" EntitySet="DirectorActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Employee" Association="AppraisalModel.FK_Employee_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Section" Association="AppraisalModel.FK_Employee_Section">
+            <End Role="Section" EntitySet="Section" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobDescription_Employee" Association="AppraisalModel.FK_JobDescription_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="JobDescription" EntitySet="JobDescription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObjectiveMain_Employee" Association="AppraisalModel.FK_ObjectiveMain_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="ObjectiveMain" EntitySet="ObjectiveMain" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceAppraisal_Employee" Association="AppraisalModel.FK_PerformanceAppraisal_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="PerformanceAppraisal" EntitySet="PerformanceAppraisal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HeadOfBusinessUnit_FiscalYear" Association="AppraisalModel.FK_HeadOfBusinessUnit_FiscalYear">
+            <End Role="FiscalYear" EntitySet="FiscalYear" />
+            <End Role="HeadOfBusinessUnit" EntitySet="HeadOfBusinessUnit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerformanceAppraisal_FiscalYear" Association="AppraisalModel.FK_PerformanceAppraisal_FiscalYear">
+            <End Role="FiscalYear" EntitySet="FiscalYear" />
+            <End Role="PerformanceAppraisal" EntitySet="PerformanceAppraisal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObjectiveSub_ObjectiveMain" Association="AppraisalModel.FK_ObjectiveSub_ObjectiveMain">
+            <End Role="ObjectiveMain" EntitySet="ObjectiveMain" />
+            <End Role="ObjectiveSub" EntitySet="ObjectiveSub" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="AppraisalModel.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Increament" EntityType="AppraisalModel.Increament" />
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="AppraisalModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="AppraisalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="AppraisalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="AppraisalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="AppraisalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="AppraisalModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="isLocked" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DepartmentConfig" Relationship="AppraisalModel.FK_DepartmentConfig_Department" FromRole="Department" ToRole="DepartmentConfig" />
+          <NavigationProperty Name="Section" Relationship="AppraisalModel.FK_Section_Department" FromRole="Department" ToRole="Section" />
+        </EntityType>
+        <EntityType Name="DepartmentConfig">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DepartmentId" Type="Guid" />
+          <Property Name="JobObjectiveDeadline" Type="DateTime" Precision="3" />
+          <Property Name="SelfAppraisalDeadline" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Department" Relationship="AppraisalModel.FK_DepartmentConfig_Department" FromRole="DepartmentConfig" ToRole="Department" />
+        </EntityType>
+        <EntityType Name="Designation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_Employee_Designation" FromRole="Designation" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="DirectorActivities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FiscalYearId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="YearlyBudget" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_DirectorActivities_Employee" FromRole="DirectorActivities" ToRole="Employee" />
+          <NavigationProperty Name="FiscalYear" Relationship="AppraisalModel.FK_DirectorActivities_FiscalYear" FromRole="DirectorActivities" ToRole="FiscalYear" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DesignationId" Type="Guid" />
+          <Property Name="SectionId" Type="Guid" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Salary" Type="Int32" />
+          <Property Name="JoiningDate" Type="DateTime" Precision="3" />
+          <Property Name="ReportTo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="JobObjectiveDeadline" Type="DateTime" Precision="3" />
+          <Property Name="SelfAppraisalDeadline" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Designation" Relationship="AppraisalModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
+          <NavigationProperty Name="DirectorActivities" Relationship="AppraisalModel.FK_DirectorActivities_Employee" FromRole="Employee" ToRole="DirectorActivities" />
+          <NavigationProperty Name="Employee1" Relationship="AppraisalModel.FK_Employee_Employee" FromRole="Employee" ToRole="Employee1" />
+          <NavigationProperty Name="Employee2" Relationship="AppraisalModel.FK_Employee_Employee" FromRole="Employee1" ToRole="Employee" />
+          <NavigationProperty Name="Section" Relationship="AppraisalModel.FK_Employee_Section" FromRole="Employee" ToRole="Section" />
+          <NavigationProperty Name="JobDescription" Relationship="AppraisalModel.FK_JobDescription_Employee" FromRole="Employee" ToRole="JobDescription" />
+          <NavigationProperty Name="ObjectiveMain" Relationship="AppraisalModel.FK_ObjectiveMain_Employee" FromRole="Employee" ToRole="ObjectiveMain" />
+          <NavigationProperty Name="PerformanceAppraisal" Relationship="AppraisalModel.FK_PerformanceAppraisal_Employee" FromRole="Employee" ToRole="PerformanceAppraisal" />
+        </EntityType>
+        <EntityType Name="FiscalYear">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FiscalYearStart" Type="DateTime" Precision="3" />
+          <Property Name="FiscalYearEnd" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DirectorActivities" Relationship="AppraisalModel.FK_DirectorActivities_FiscalYear" FromRole="FiscalYear" ToRole="DirectorActivities" />
+          <NavigationProperty Name="HeadOfBusinessUnit" Relationship="AppraisalModel.FK_HeadOfBusinessUnit_FiscalYear" FromRole="FiscalYear" ToRole="HeadOfBusinessUnit" />
+          <NavigationProperty Name="PerformanceAppraisal" Relationship="AppraisalModel.FK_PerformanceAppraisal_FiscalYear" FromRole="FiscalYear" ToRole="PerformanceAppraisal" />
+        </EntityType>
+        <EntityType Name="HeadOfBusinessUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EllocatedBudget" Type="Int32" />
+          <Property Name="FiscalYearId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="FiscalYear" Relationship="AppraisalModel.FK_HeadOfBusinessUnit_FiscalYear" FromRole="HeadOfBusinessUnit" ToRole="FiscalYear" />
+        </EntityType>
+        <EntityType Name="JobDescription">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="JobPurposes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="KeyAccountabilities" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="IsReportToConfirmed" Type="Boolean" />
+          <Property Name="IsHOBUConfirmed" Type="Boolean" />
+          <Property Name="ReportToConfirmedDate" Type="DateTime" Precision="3" />
+          <Property Name="HOBUConfirmedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_JobDescription_Employee" FromRole="JobDescription" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="ObjectiveMain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="OverallScore" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OverallComment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="PersonalDevelopmentPlan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_ObjectiveMain_Employee" FromRole="ObjectiveMain" ToRole="Employee" />
+          <NavigationProperty Name="ObjectiveSub" Relationship="AppraisalModel.FK_ObjectiveSub_ObjectiveMain" FromRole="ObjectiveMain" ToRole="ObjectiveSub" />
+          <Property Name="TotalScore" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ObjectiveSub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ObjectiveMainId" Type="Guid" Nullable="false" />
+          <Property Name="KPI" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="SelfAppraisal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Comments" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EvidenceFile" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsObjectiveApproved" Type="Boolean" />
+          <Property Name="PerfomenseAppraisal" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PerfomenseAppraisalDate" Type="DateTime" Precision="3" />
+          <Property Name="PerfomenseAppraisalBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Target" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Score" Type="Int32" />
+          <NavigationProperty Name="ObjectiveMain" Relationship="AppraisalModel.FK_ObjectiveSub_ObjectiveMain" FromRole="ObjectiveSub" ToRole="ObjectiveMain" />
+        </EntityType>
+        <EntityType Name="PerformanceAppraisal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CurrentSalary" Type="Int32" />
+          <Property Name="FinanalAppraisal" Type="Int32" />
+          <Property Name="SalaryIncreament" Type="Int32" />
+          <Property Name="SalaryIncreamentPercentage" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="ProposedSalary" Type="Int32" />
+          <Property Name="ProposeDesignationId" Type="Guid" />
+          <Property Name="Note" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FiscalYearId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_PerformanceAppraisal_Employee" FromRole="PerformanceAppraisal" ToRole="Employee" />
+          <NavigationProperty Name="FiscalYear" Relationship="AppraisalModel.FK_PerformanceAppraisal_FiscalYear" FromRole="PerformanceAppraisal" ToRole="FiscalYear" />
+        </EntityType>
+        <EntityType Name="Section">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="DeparmentId" Type="Guid" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Department" Relationship="AppraisalModel.FK_Section_Department" FromRole="Section" ToRole="Department" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_Employee_Section" FromRole="Section" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="AppraisalModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AppraisalModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="AppraisalModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AppraisalModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentConfig_Department">
+          <End Type="AppraisalModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="AppraisalModel.DepartmentConfig" Role="DepartmentConfig" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DepartmentConfig">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Section_Department">
+          <End Type="AppraisalModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="AppraisalModel.Section" Role="Section" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Section">
+              <PropertyRef Name="DeparmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Designation">
+          <End Type="AppraisalModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DirectorActivities_Employee">
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="AppraisalModel.DirectorActivities" Role="DirectorActivities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="DirectorActivities">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DirectorActivities_FiscalYear">
+          <End Type="AppraisalModel.FiscalYear" Role="FiscalYear" Multiplicity="0..1" />
+          <End Type="AppraisalModel.DirectorActivities" Role="DirectorActivities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FiscalYear">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectorActivities">
+              <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Employee">
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="AppraisalModel.Employee" Role="Employee1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="ReportTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Section">
+          <End Type="AppraisalModel.Section" Role="Section" Multiplicity="0..1" />
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Section">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobDescription_Employee">
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="AppraisalModel.JobDescription" Role="JobDescription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="JobDescription">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObjectiveMain_Employee">
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="AppraisalModel.ObjectiveMain" Role="ObjectiveMain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="ObjectiveMain">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceAppraisal_Employee">
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="AppraisalModel.PerformanceAppraisal" Role="PerformanceAppraisal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="PerformanceAppraisal">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HeadOfBusinessUnit_FiscalYear">
+          <End Type="AppraisalModel.FiscalYear" Role="FiscalYear" Multiplicity="0..1" />
+          <End Type="AppraisalModel.HeadOfBusinessUnit" Role="HeadOfBusinessUnit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FiscalYear">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HeadOfBusinessUnit">
+              <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerformanceAppraisal_FiscalYear">
+          <End Type="AppraisalModel.FiscalYear" Role="FiscalYear" Multiplicity="0..1" />
+          <End Type="AppraisalModel.PerformanceAppraisal" Role="PerformanceAppraisal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FiscalYear">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PerformanceAppraisal">
+              <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObjectiveSub_ObjectiveMain">
+          <End Type="AppraisalModel.ObjectiveMain" Role="ObjectiveMain" Multiplicity="1" />
+          <End Type="AppraisalModel.ObjectiveSub" Role="ObjectiveSub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObjectiveMain">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ObjectiveSub">
+              <PropertyRef Name="ObjectiveMainId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="AppraisalModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="AppraisalModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Increament">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LowerScore" />
+            <PropertyRef Name="UpperScore" />
+            <PropertyRef Name="Promotion" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LowerScore" Type="Int32" Nullable="false" />
+          <Property Name="UpperScore" Type="Int32" Nullable="false" />
+          <Property Name="Promotion" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AppraisalModelStoreContainer" CdmEntityContainer="AppraisalDbContext">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="AppraisalModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="AppraisalModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="AppraisalModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="AppraisalModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="AppraisalModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="isLocked" ColumnName="isLocked" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="AppraisalModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DepartmentConfig">
+            <EntityTypeMapping TypeName="AppraisalModel.DepartmentConfig">
+              <MappingFragment StoreEntitySet="DepartmentConfig">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="SelfAppraisalDeadline" ColumnName="SelfAppraisalDeadline" />
+                <ScalarProperty Name="JobObjectiveDeadline" ColumnName="JobObjectiveDeadline" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Designation">
+            <EntityTypeMapping TypeName="AppraisalModel.Designation">
+              <MappingFragment StoreEntitySet="Designation">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DirectorActivities">
+            <EntityTypeMapping TypeName="AppraisalModel.DirectorActivities">
+              <MappingFragment StoreEntitySet="DirectorActivities">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="YearlyBudget" ColumnName="YearlyBudget" />
+                <ScalarProperty Name="FiscalYearId" ColumnName="FiscalYearId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="AppraisalModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="SelfAppraisalDeadline" ColumnName="SelfAppraisalDeadline" />
+                <ScalarProperty Name="JobObjectiveDeadline" ColumnName="JobObjectiveDeadline" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="ReportTo" ColumnName="ReportTo" />
+                <ScalarProperty Name="JoiningDate" ColumnName="JoiningDate" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FiscalYear">
+            <EntityTypeMapping TypeName="AppraisalModel.FiscalYear">
+              <MappingFragment StoreEntitySet="FiscalYear">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="FiscalYearEnd" ColumnName="FiscalYearEnd" />
+                <ScalarProperty Name="FiscalYearStart" ColumnName="FiscalYearStart" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HeadOfBusinessUnit">
+            <EntityTypeMapping TypeName="AppraisalModel.HeadOfBusinessUnit">
+              <MappingFragment StoreEntitySet="HeadOfBusinessUnit">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="FiscalYearId" ColumnName="FiscalYearId" />
+                <ScalarProperty Name="EllocatedBudget" ColumnName="EllocatedBudget" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobDescription">
+            <EntityTypeMapping TypeName="AppraisalModel.JobDescription">
+              <MappingFragment StoreEntitySet="JobDescription">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="HOBUConfirmedDate" ColumnName="HOBUConfirmedDate" />
+                <ScalarProperty Name="ReportToConfirmedDate" ColumnName="ReportToConfirmedDate" />
+                <ScalarProperty Name="IsHOBUConfirmed" ColumnName="IsHOBUConfirmed" />
+                <ScalarProperty Name="IsReportToConfirmed" ColumnName="IsReportToConfirmed" />
+                <ScalarProperty Name="KeyAccountabilities" ColumnName="KeyAccountabilities" />
+                <ScalarProperty Name="JobPurposes" ColumnName="JobPurposes" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjectiveMain">
+            <EntityTypeMapping TypeName="AppraisalModel.ObjectiveMain">
+              <MappingFragment StoreEntitySet="ObjectiveMain">
+                <ScalarProperty Name="TotalScore" ColumnName="TotalScore" />
+                <ScalarProperty Name="PersonalDevelopmentPlan" ColumnName="PersonalDevelopmentPlan" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="OverallComment" ColumnName="OverallComment" />
+                <ScalarProperty Name="OverallScore" ColumnName="OverallScore" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObjectiveSub">
+            <EntityTypeMapping TypeName="AppraisalModel.ObjectiveSub">
+              <MappingFragment StoreEntitySet="ObjectiveSub">
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="PerfomenseAppraisalBy" ColumnName="PerfomenseAppraisalBy" />
+                <ScalarProperty Name="PerfomenseAppraisalDate" ColumnName="PerfomenseAppraisalDate" />
+                <ScalarProperty Name="PerfomenseAppraisal" ColumnName="PerfomenseAppraisal" />
+                <ScalarProperty Name="IsObjectiveApproved" ColumnName="IsObjectiveApproved" />
+                <ScalarProperty Name="EvidenceFile" ColumnName="EvidenceFile" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="SelfAppraisal" ColumnName="SelfAppraisal" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="KPI" ColumnName="KPI" />
+                <ScalarProperty Name="ObjectiveMainId" ColumnName="ObjectiveMainId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PerformanceAppraisal">
+            <EntityTypeMapping TypeName="AppraisalModel.PerformanceAppraisal">
+              <MappingFragment StoreEntitySet="PerformanceAppraisal">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="FiscalYearId" ColumnName="FiscalYearId" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ProposeDesignationId" ColumnName="ProposeDesignationId" />
+                <ScalarProperty Name="ProposedSalary" ColumnName="ProposedSalary" />
+                <ScalarProperty Name="SalaryIncreamentPercentage" ColumnName="SalaryIncreamentPercentage" />
+                <ScalarProperty Name="SalaryIncreament" ColumnName="SalaryIncreament" />
+                <ScalarProperty Name="FinanalAppraisal" ColumnName="FinanalAppraisal" />
+                <ScalarProperty Name="CurrentSalary" ColumnName="CurrentSalary" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Section">
+            <EntityTypeMapping TypeName="AppraisalModel.Section">
+              <MappingFragment StoreEntitySet="Section">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DeparmentId" ColumnName="DeparmentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="AppraisalModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Increament">
+            <EntityTypeMapping TypeName="AppraisalModel.Increament">
+              <MappingFragment StoreEntitySet="Increament">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Promotion" ColumnName="Promotion" />
+                <ScalarProperty Name="UpperScore" ColumnName="UpperScore" />
+                <ScalarProperty Name="LowerScore" ColumnName="LowerScore" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
