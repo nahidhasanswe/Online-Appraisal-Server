@@ -79,5 +79,13 @@ namespace AppraisalSystem.Areas.Admin.Controllers
             HofBUData data = new HofBUData();
             return Ok(data.GetDeadline());
         }
+
+        [HttpGet]
+        [Route("GetIncrementData")]
+        public IHttpActionResult GetIncrementData()
+        {
+            HofBUData data = new HofBUData();
+            return Ok(data.GetIncrementData());
+        }
     }
 }

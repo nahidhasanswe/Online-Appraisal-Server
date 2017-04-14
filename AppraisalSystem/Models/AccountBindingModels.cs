@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace AppraisalSln.Models
+namespace AppraisalSystem.Models
 {
-    public class AddExternalLoginBindingModel
-    {
-        [Required]
-        [Display(Name = "External access token")]
-        public string ExternalAccessToken { get; set; }
-    }
-
     public class ChangePasswordBindingModel
     {
         [Required]
@@ -64,35 +54,56 @@ namespace AppraisalSln.Models
         [Required]
         [Display(Name = "Role")]
         public string RoleName { get; set; }
+
+        [Required]
+        [Display(Name = "Group")]
+        public string groups { get; set; }
     }
 
-    public class RegisterExternalBindingModel
+    public class ForgotPasswordModel
     {
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        public string EmployeeId { get; set; }
     }
 
-    public class RemoveLoginBindingModel
+    public class ResetPasswordModel
     {
         [Required]
-        [Display(Name = "Login provider")]
-        public string LoginProvider { get; set; }
+        public string id { get; set; }
 
         [Required]
-        [Display(Name = "Provider key")]
-        public string ProviderKey { get; set; }
+        public string code { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string NewPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
+        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+    }
+
+    public class LockModel
+    {
+        [Required]
+        public string EmployeeId { get; set; }
+
+        [Required]
+        public bool isLocked { get; set; }
     }
 
     public class SetPasswordBindingModel
     {
         [Required]
-        [Display(Name ="EmployeeId")]
+        [Display(Name = "EmployeeId")]
         public string EmployeeId { get; set; }
 
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }

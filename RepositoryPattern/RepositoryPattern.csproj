@@ -40,6 +40,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Abstractions, Version=2.0.2.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.Abstractions.2.0.2.26\lib\net45\System.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -96,6 +101,9 @@
     <Compile Include="Employee.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmployeeSummery.cs">
+      <DependentUpon>AppraisalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="FiscalYear.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
@@ -105,6 +113,7 @@
     <Compile Include="Increament.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="JobChart.cs" />
     <Compile Include="JobDescription.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
@@ -118,8 +127,13 @@
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\OrganoramPoco.cs" />
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Section.cs">
+      <DependentUpon>AppraisalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpRepository.cs" />
+    <Compile Include="SP_GetEmployeeByReportToForOrganogram_Result.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UnitOfWork.cs" />

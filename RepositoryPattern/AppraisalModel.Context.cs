@@ -12,6 +12,8 @@ namespace RepositoryPattern
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class AppraisalDbContext : DbContext
     {
@@ -35,13 +37,32 @@ namespace RepositoryPattern
         public virtual DbSet<Designation> Designation { get; set; }
         public virtual DbSet<DirectorActivities> DirectorActivities { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<EmployeeSummery> EmployeeSummery { get; set; }
         public virtual DbSet<FiscalYear> FiscalYear { get; set; }
         public virtual DbSet<HeadOfBusinessUnit> HeadOfBusinessUnit { get; set; }
+        public virtual DbSet<Increament> Increament { get; set; }
         public virtual DbSet<JobDescription> JobDescription { get; set; }
         public virtual DbSet<ObjectiveMain> ObjectiveMain { get; set; }
         public virtual DbSet<ObjectiveSub> ObjectiveSub { get; set; }
         public virtual DbSet<PerformanceAppraisal> PerformanceAppraisal { get; set; }
         public virtual DbSet<Section> Section { get; set; }
-        public virtual DbSet<Increament> Increament { get; set; }
+    
+        public virtual int SP_GetEmployeeByReportToForOrganogram(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_GetEmployeeByReportToForOrganogram", idParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetEmployeeByReportToForOrganogram_Result> SP_GetEmployeeByReportToForOrganogram1(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetEmployeeByReportToForOrganogram_Result>("SP_GetEmployeeByReportToForOrganogram1", idParameter);
+        }
     }
 }

@@ -37,7 +37,13 @@ namespace AppraisalSystem.Providers
 
             if (user == null)
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
+                context.SetError("invalid_grant", "The Employee Id or password is incorrect.");
+                return;
+            }
+
+            if (user.isLocked)
+            {
+                context.SetError("invalid_grant", "The Employee Id is locked. Please contact admin");
                 return;
             }
 
@@ -49,10 +55,10 @@ namespace AppraisalSystem.Providers
             EmployeeData employee = new EmployeeData(new UnitOfWork());
             string EmployeeName = employee.GetEmployeeNameByEmployeeId(user.UserName);
 
-            string roleName=userManager.GetRoles(user.Id).SingleOrDefault().ToString();
-             
+            IList<string> roleName = await userManager.GetRolesAsync(user.Id);
 
-            AuthenticationProperties properties = CreateProperties(EmployeeName, roleName);
+
+            AuthenticationProperties properties = CreateProperties(EmployeeName, roleName.FirstOrDefault().ToString());
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);

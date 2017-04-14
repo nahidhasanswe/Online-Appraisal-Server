@@ -102,17 +102,10 @@ namespace Appraisal.BusinessLogicLayer.HBOU
 
         public object GetEmployeesObjectiveForHOBUforPerformanceAppraisal(string userId)
         {
-
-            var deptId = GetUnitOfWork()
-                    .EmployeeRepository.Get()
-                    .Where(a => a.EmployeeId == userId)
-                    .Select(s => s.Section.DeparmentId)
-                    .FirstOrDefault();
-
             var list =
                 GetUnitOfWork()
                     .ObjectiveSubRepository.Get()
-                    .Where(a => a.ObjectiveMain.Employee.Section.Department.Id == deptId && a.IsObjectiveApproved == true)
+                    .Where(a => a.ObjectiveMain.Employee.ReportTo == userId && a.IsObjectiveApproved == true)
                     .Select(s => new
                     {
                         EmployeeId = s.ObjectiveMain.EmployeeId,
@@ -122,10 +115,12 @@ namespace Appraisal.BusinessLogicLayer.HBOU
                         Target = s.Target,
                         Weight = s.Weight,
                         Note = s.Note,
-                        SelfAppraisal = s.Comments,
+                        SelfAppraisal = s.SelfAppraisal,
                         EvidenceFile = s.EvidenceFile,
                         PerformanceAppraisal = s.PerfomenseAppraisal,
-                        Comments = s.Comments
+                        Comments = s.Comments,
+                        Score = s.Score,
+                        isSubmitSelfAppraisal = s.ObjectiveMain.OverallScore != null
                     })
                     .ToList();
             return list;
@@ -143,19 +138,25 @@ namespace Appraisal.BusinessLogicLayer.HBOU
             }).ToList();
             return deadline;
         }
+
+        public object GetIncrementData()
+        {
+            var data = GetUnitOfWork().IncreamentRepository.Get().Select(s => new
+            {
+                s.Id,
+                s.LowerScore,
+                s.UpperScore,
+                s.Promotion
+            }).ToList();
+            return data;
+        }
+
         public object GetEmployeesObjectiveForHOBUWithReportTo(string userId)
         {
-
-            var deptId = GetUnitOfWork()
-                    .EmployeeRepository.Get()
-                    .Where(a => a.EmployeeId == userId)
-                    .Select(s => s.Section.DeparmentId)
-                    .FirstOrDefault();
-
             var list =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a => a.Employee.Section.Department.Id == deptId)
+                    .Where(a => a.Employee.ReportTo == userId)
                     .Select(s => new
                     {
                         EmployeeId = s.EmployeeId,
@@ -170,10 +171,10 @@ namespace Appraisal.BusinessLogicLayer.HBOU
                         ReportToDepartment = s.Employee.Section.Department.Name,
                         ObjectiveId = s.Id,
                         OverallScore = s.OverallScore,
-                          TotalScore = s.TotalScore,
-                          OverallComments = s.OverallComment,
-                          PDP = s.PersonalDevelopmentPlan,
-                          isDone = s.TotalScore != null
+                        TotalScore = s.TotalScore,
+                        OverallComments = s.OverallComment,
+                        PDP = s.PersonalDevelopmentPlan,
+                        isDone = s.TotalScore != null
                     })
                     .ToList();
             return list;
@@ -208,7 +209,7 @@ namespace Appraisal.BusinessLogicLayer.HBOU
             return main;
         }
 
-        public Object GetIndividualEmployeeObjectiveById(string objectiveId)
+        public object GetIndividualEmployeeObjectiveById(string objectiveId)
         {
             var list =
                 GetUnitOfWork()

@@ -85,13 +85,14 @@ namespace Appraisal.BusinessLogicLayer.Admin
                     .FirstOrDefault();
             var weight =
               GetUnitOfWork().ObjectiveSubRepository.Get().Where(a => a.ObjectiveMainId == mainId).Sum(s => s.Weight) + sub.Weight;
-            if (weight > 100)
-            {
-                throw new Exception("Weight should not be greater then 100");
-            }
+           
             if (sub.Id != null)
                 {
-                    ObjectiveSub ob = GetUnitOfWork().ObjectiveSubRepository.Get().FirstOrDefault(a => a.Id == sub.Id);
+                if (weight - sub.Weight > 100)
+                {
+                    throw new Exception("Weight should not be greater then 100");
+                }
+                ObjectiveSub ob = GetUnitOfWork().ObjectiveSubRepository.Get().FirstOrDefault(a => a.Id == sub.Id);
                     if (ob != null)
                     {
                         ob.KPI = sub.KPI;
@@ -106,7 +107,10 @@ namespace Appraisal.BusinessLogicLayer.Admin
                 }
                 else
                 {
-              
+                if (weight > 100)
+                {
+                    throw new Exception("Weight should not be greater then 100");
+                }
                 if (mainId == Guid.Empty)
                     {
                         ObjectiveMain main = new ObjectiveMain()

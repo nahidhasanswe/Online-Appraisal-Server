@@ -6,6 +6,7 @@ using RepositoryPattern;
 
 namespace AppraisalSystem.Areas.Employees.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Employees/EmployeesData")]
     public class EmployeeDataController : ApiController
     {
@@ -208,20 +209,20 @@ namespace AppraisalSystem.Areas.Employees.Controllers
                 return BadRequest(EX_NAME.Message);
             }
         }
-
         [HttpGet]
-        [Route("GetMyEmployeesForOrganogram/{id}")]
-        public IHttpActionResult GetMyEmployeesForOrganogram(string id)
+        [Route("GetEmployeeWhoHaveSubmitAppraisal")]
+        public IHttpActionResult GetEmployeeWhoHaveSubmitAppraisal()
         {
             try
             {
                 JobObjectiveData employeesData = new JobObjectiveData();
-                return Ok(employeesData.GetMyEmployeesForOrganogram(id));
+                return Ok(employeesData.GetEmployeeWhoHaveSubmitAppraisal());
             }
             catch (Exception EX_NAME)
             {
                 return BadRequest(EX_NAME.Message);
             }
         }
+
     }
 }

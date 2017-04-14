@@ -14,8 +14,11 @@ namespace AppraisalSystem.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim("isLocked", this.isLocked.ToString()));
+
             return userIdentity;
         }
+        public bool isLocked { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

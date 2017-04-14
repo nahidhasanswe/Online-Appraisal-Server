@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Appraisal.BusinessLogicLayer.Core;
 using RepositoryPattern;
 
 namespace Appraisal.BusinessLogicLayer.Employee
@@ -62,7 +63,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         s.OverallComment,
                         s.CreatedBy,
                         s.CreatedDate,
-                        objectiveSub = s.ObjectiveSub.Select(a => new
+                        objectiveSub = s.ObjectiveSub.Where(a=>a.IsObjectiveApproved == true).Select(a => new
                         {
                             a.Id,
                             a.ObjectiveMainId,
@@ -75,7 +76,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                             a.Comments,
                             a.SelfAppraisal,
                             a.CreatedDate,
-                            a.CreatedBy
+                            a.CreatedBy,
+                            a.EvidenceFile
                         }).ToList()
                     }).FirstOrDefault();
             return list;
@@ -131,32 +133,57 @@ namespace Appraisal.BusinessLogicLayer.Employee
 
         public object GetEmployeeJobDescriptionSingleObject(string id)
         {
-            var main =
-                GetUnitOfWork()
-                    .ObjectiveMainRepository.Get()
-                    .Where(a => a.EmployeeId == id)
-                    .OrderByDescending(o => o.CreatedDate)
-                    .Select(s => new
-                    {
-                        s.EmployeeId,
-                        employeeName = s.Employee.EmployeeName,
-                        Email = s.Employee.Email,
-                        isHOBUConfirmed = s.Employee.JobDescription.Select(a => a.IsHOBUConfirmed).FirstOrDefault(),
-                        Designation = s.Employee.Designation.Name,
-                        Department = s.Employee.Section.Department.Name,
-                        Section = s.Employee.Section.Name,
-                        Location = s.Employee.Location,
-                        JoiningDate = s.Employee.JoiningDate,
-                        ReportToName = s.Employee.Employee2.EmployeeName,
-                        ReportToDesignation = s.Employee.Employee2.Designation.Name,
-                        ReportToDepartment = s.Employee.Employee2.Section.Name,
-                        JobdescriptionId = s.Employee.JobDescription.Select(a=>a.Id).FirstOrDefault(),
-                        JobPurpose = s.Employee.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.JobPurposes).FirstOrDefault(),
-                        KeyAccountabilities = s.Employee.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.KeyAccountabilities).FirstOrDefault(),
+            Validation validation = new Validation(new UnitOfWork());
 
-                    })
-                    .FirstOrDefault();
-            return main;
+            if (validation.HasSetJobDescription(id))
+            {
+                var employee =
+                  GetUnitOfWork()
+                      .EmployeeRepository.Get().Where(e => e.EmployeeId == id).ToList()
+                      .Select(s => new
+                      {
+                          s.EmployeeId,
+                          employeeName = s.EmployeeName,
+                          Email = s.Email,
+                          isHOBUConfirmed = s.JobDescription.Select(a => a.IsHOBUConfirmed).FirstOrDefault(),
+                          Designation = s.Designation.Name,
+                          Department = s.Section.Department.Name,
+                          Section = s.Section.Name,
+                          Location = s.Location,
+                          JoiningDate = s.JoiningDate,
+                          ReportToName = s.Employee2.EmployeeName,
+                          ReportToDesignation = s.Employee2.Designation.Name,
+                          ReportToDepartment = s.Employee2.Section.Name,
+                          JobdescriptionId = s.JobDescription.Select(a => a.Id).FirstOrDefault(),
+                          JobPurpose = s.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.JobPurposes).FirstOrDefault(),
+                          KeyAccountabilities = s.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.KeyAccountabilities).FirstOrDefault(),
+
+                      })
+                      .FirstOrDefault();
+                return employee;
+            }
+            else
+            {
+                var employee =
+                  GetUnitOfWork()
+                      .EmployeeRepository.Get().Where(e => e.EmployeeId == id).ToList()
+                      .Select(s => new
+                      {
+                          s.EmployeeId,
+                          s.EmployeeName,
+                          s.Email,
+                          s.JoiningDate,
+                          designation = s.Designation.Name ?? "",
+                          department = s.Section.Department.Name ?? "",
+                          section = s.Section.Name ?? "",
+                          s.Location,
+                          reportToName = s.Employee2.EmployeeName ?? "",
+                          reportToId = s.Employee2.EmployeeId ?? "",
+                          reportToDesignation = s.Employee2.Email ?? ""
+                      })
+                      .FirstOrDefault();
+                return employee;
+            }
         }
 
         public object GetMyEmployeeList(string id)
@@ -314,26 +341,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             return main;
         }
 
-        public object GetMyEmployeesForOrganogram(string id)
-        {
-            var main =
-                GetUnitOfWork()
-                    .EmployeeRepository.Get()
-                    .Where(a => a.ReportTo == id).ToList()
-                    .OrderByDescending(o => o.CreatedDate)
-                    .Select(s => new
-                    {
-                        EmployeeId = s.EmployeeId,
-                        EmployeeName = s.EmployeeName,
-                        Designation = s.Designation.Name,
-                        Department = s.Section.Department.Name,
-                        JoiningDate = s.JoiningDate,
-                        ReportToName = s.Employee2.EmployeeName,
-
-                    })
-                    .ToList();
-            return main;
-        }
+       
         private UnitOfWork GetUnitOfWork()
         {
             return _unitOfWork;
@@ -342,6 +350,22 @@ namespace Appraisal.BusinessLogicLayer.Employee
         public void Dispose()
         {
             GetUnitOfWork().Dispose();
+        }
+
+        public object GetEmployeeWhoHaveSubmitAppraisal()
+        {
+            var empList = GetUnitOfWork().ObjectiveMainRepository.Get().Select(s => new
+            {
+                s.EmployeeId,
+                s.Employee.EmployeeName,
+                section = s.Employee.Section.Name,
+                sectionID = s.Employee.SectionId,
+                department = s.Employee.Section.Department.Name,
+                departmentId = s.Employee.Section.DeparmentId,
+                s.Employee.groups,
+                isSubmitSelfAppraisal = s.OverallScore != null
+            }).ToList();
+            return empList;
         }
     }
 }

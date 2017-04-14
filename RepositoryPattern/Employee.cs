@@ -40,6 +40,7 @@ namespace RepositoryPattern
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.DateTime> JobObjectiveDeadline { get; set; }
         public Nullable<System.DateTime> SelfAppraisalDeadline { get; set; }
+        public string groups { get; set; }
     
         public virtual Designation Designation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

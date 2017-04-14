@@ -37,6 +37,18 @@ namespace Appraisal.BusinessLogicLayer.Core
             return result;
         }
 
+        public bool IsSelfAppraisalDeadLineNull(string employeeId)
+        {
+            if (String.IsNullOrEmpty(employeeId)) return false;
+            bool result =
+                GetUnitOfWork()
+                    .EmployeeRepository.Get()
+                    .Where(d => d.EmployeeId == employeeId && d.SelfAppraisalDeadline == null)
+                    .OrderByDescending(a => a.JobObjectiveDeadline)
+                    .Any();
+            return result;
+        }
+
         public bool HasSetJobDescription(string employeeId)
         {
             if (String.IsNullOrEmpty(employeeId)) return false;
@@ -66,6 +78,21 @@ namespace Appraisal.BusinessLogicLayer.Core
                 .Where(a => a.Id == id)
                 .Select(s => s.IsObjectiveApproved??false).FirstOrDefault();
             return app;
+        }
+
+        public bool IsJobDescriptionConfirmed(string employeeId)
+        {
+            bool result = GetUnitOfWork().JobDescriptionRepository.Get().Any(a => a.IsReportToConfirmed == true && a.EmployeeId == employeeId);
+            return result;
+        }
+
+        public ReportToInfo GetReportToByEmployeeId(string id)
+        {
+            var rId = GetUnitOfWork().EmployeeRepository.Get().Where(a => a.EmployeeId == id).Select(s => new ReportToInfo {
+                ReportToId = s.ReportTo,
+                ReportToEmail = s.Employee2.Email
+            }).FirstOrDefault();
+            return rId;
         }
 
         private UnitOfWork GetUnitOfWork()

@@ -228,6 +228,8 @@
     <Compile Include="Areas\Admin\Controllers\AdminDataController.cs" />
     <Compile Include="Areas\Admin\Controllers\DirectorActivitiesController.cs" />
     <Compile Include="Areas\Admin\Controllers\HeadOfBussinessUnitController.cs" />
+    <Compile Include="Areas\Core\Controllers\EmployeeSummeryController.cs" />
+    <Compile Include="Areas\Core\Controllers\OrganogramController.cs" />
     <Compile Include="Areas\Core\CoreAreaRegistration.cs" />
     <Compile Include="Areas\Employees\Controllers\EmployeeDataController.cs" />
     <Compile Include="Areas\Employees\Controllers\EmployeesController.cs" />
@@ -276,11 +278,11 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\Nahid.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Core\Controllers\" />
     <Folder Include="Areas\Core\Models\" />
     <Folder Include="Areas\Core\Views\Shared\" />
     <Folder Include="Areas\Employees\Models\" />

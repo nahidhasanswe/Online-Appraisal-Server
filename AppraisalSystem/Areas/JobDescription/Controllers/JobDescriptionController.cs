@@ -4,6 +4,7 @@ using Appraisal.BusinessLogicLayer.Core;
 using Appraisal.BusinessLogicLayer.Employee;
 using Microsoft.AspNet.Identity;
 using RepositoryPattern;
+using Appraisal.BusinessLogicLayer;
 
 namespace AppraisalSystem.Areas.JobDescription.Controllers
 {
@@ -30,6 +31,9 @@ namespace AppraisalSystem.Areas.JobDescription.Controllers
                 return BadRequest("You already set a job description.");
             }
 
+            ReportToInfo info = validation.GetReportToByEmployeeId(employee.CreatedBy);
+           
+            
             employee.Save(description);
             return Ok("Congrats! Save successfully!");
         }

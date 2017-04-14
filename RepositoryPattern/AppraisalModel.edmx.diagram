@@ -7,20 +7,22 @@
       <Diagram DiagramId="ae0f18e60ef644c193f5bed71d519110" Name="Diagram1">
         <EntityTypeShape EntityType="AppraisalModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="AppraisalModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" />
-        <EntityTypeShape EntityType="AppraisalModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="1" />
-        <EntityTypeShape EntityType="AppraisalModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="3.75" />
-        <EntityTypeShape EntityType="AppraisalModel.AspNetUsers" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="AppraisalModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="3.625" />
+        <EntityTypeShape EntityType="AppraisalModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="AppraisalModel.AspNetUsers" Width="1.5" PointX="3" PointY="1.25" />
         <EntityTypeShape EntityType="AppraisalModel.Department" Width="1.5" PointX="0.75" PointY="11.25" />
         <EntityTypeShape EntityType="AppraisalModel.DepartmentConfig" Width="1.5" PointX="3" PointY="9.875" />
         <EntityTypeShape EntityType="AppraisalModel.Designation" Width="1.5" PointX="3" PointY="16.5" />
-        <EntityTypeShape EntityType="AppraisalModel.DirectorActivities" Width="1.5" PointX="10.5" PointY="12.875" />
-        <EntityTypeShape EntityType="AppraisalModel.Employee" Width="1.5" PointX="5.25" PointY="11.5" />
+        <EntityTypeShape EntityType="AppraisalModel.DirectorActivities" Width="1.5" PointX="7.5" PointY="12.875" />
+        <EntityTypeShape EntityType="AppraisalModel.Employee" Width="1.5" PointX="5.25" PointY="11.375" />
+        <EntityTypeShape EntityType="AppraisalModel.EmployeeSummery" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="AppraisalModel.FiscalYear" Width="1.5" PointX="5.25" PointY="6.75" />
-        <EntityTypeShape EntityType="AppraisalModel.HeadOfBusinessUnit" Width="1.5" PointX="7.5" PointY="4" />
-        <EntityTypeShape EntityType="AppraisalModel.JobDescription" Width="1.5" PointX="7.5" PointY="13.375" />
-        <EntityTypeShape EntityType="AppraisalModel.ObjectiveMain" Width="1.5" PointX="7.5" PointY="23.375" />
-        <EntityTypeShape EntityType="AppraisalModel.ObjectiveSub" Width="1.5" PointX="9.75" PointY="22.5" />
-        <EntityTypeShape EntityType="AppraisalModel.PerformanceAppraisal" Width="1.5" PointX="7.5" PointY="8.25" />
+        <EntityTypeShape EntityType="AppraisalModel.HeadOfBusinessUnit" Width="1.5" PointX="7.5" PointY="7" />
+        <EntityTypeShape EntityType="AppraisalModel.Increament" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppraisalModel.JobDescription" Width="1.5" PointX="7.5" PointY="24" />
+        <EntityTypeShape EntityType="AppraisalModel.ObjectiveMain" Width="1.5" PointX="7.5" PointY="19" />
+        <EntityTypeShape EntityType="AppraisalModel.ObjectiveSub" Width="1.5" PointX="9.75" PointY="18.25" />
+        <EntityTypeShape EntityType="AppraisalModel.PerformanceAppraisal" Width="1.5" PointX="10.5" PointY="12.25" />
         <EntityTypeShape EntityType="AppraisalModel.Section" Width="1.5" PointX="3" PointY="13.375" />
         <AssociationConnector Association="AppraisalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="AppraisalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
@@ -38,7 +40,6 @@
         <AssociationConnector Association="AppraisalModel.FK_PerformanceAppraisal_FiscalYear" />
         <AssociationConnector Association="AppraisalModel.FK_ObjectiveSub_ObjectiveMain" />
         <AssociationConnector Association="AppraisalModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="AppraisalModel.Increament" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

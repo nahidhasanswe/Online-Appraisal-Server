@@ -7,7 +7,7 @@ namespace AppraisalSystem.Models
         
         public static string GeneratePassword()
         {
-            return String.Format("{0:d6}", (DateTime.Now.Ticks / 10) % 1000000000);
+            return String.Format("{0:d6}", (DateTime.Now.Ticks / 60) % 6000000000);
         }
     }
 }

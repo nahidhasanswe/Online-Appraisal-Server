@@ -131,6 +131,18 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="JobObjectiveDeadline" Type="datetime" />
           <Property Name="SelfAppraisalDeadline" Type="datetime" />
+          <Property Name="groups" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="EmployeeSummery">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="HeadOfDepartment" Type="varchar" MaxLength="70" />
+          <Property Name="DepartmentName" Type="varchar" MaxLength="70" />
+          <Property Name="NumberOfEmployees" Type="int" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="FiscalYear">
           <Key>
@@ -158,14 +170,9 @@
           <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Increament">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="LowerScore" />
-            <PropertyRef Name="UpperScore" />
-            <PropertyRef Name="Promotion" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LowerScore" Type="int" Nullable="false" />
@@ -182,8 +189,8 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EmployeeId" Type="varchar" MaxLength="30" />
-          <Property Name="JobPurposes" Type="varchar" MaxLength="200" />
-          <Property Name="KeyAccountabilities" Type="varchar" MaxLength="120" />
+          <Property Name="JobPurposes" Type="text" />
+          <Property Name="KeyAccountabilities" Type="text" />
           <Property Name="IsReportToConfirmed" Type="bit" />
           <Property Name="IsHOBUConfirmed" Type="bit" />
           <Property Name="ReportToConfirmedDate" Type="datetime" />
@@ -201,12 +208,12 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <Property Name="EmployeeId" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="OverallScore" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="OverallComment" Type="varchar" MaxLength="200" />
+          <Property Name="OverallComment" Type="ntext" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
           <Property Name="UpdatedDate" Type="datetime" />
-          <Property Name="PersonalDevelopmentPlan" Type="nvarchar(max)" />
+          <Property Name="PersonalDevelopmentPlan" Type="ntext" />
           <Property Name="TotalScore" Type="int" />
         </EntityType>
         <EntityType Name="ObjectiveSub">
@@ -215,11 +222,11 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ObjectiveMainId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="KPI" Type="varchar" MaxLength="200" />
+          <Property Name="KPI" Type="text" />
           <Property Name="Weight" Type="int" />
-          <Property Name="Note" Type="varchar" MaxLength="300" />
+          <Property Name="Note" Type="ntext" />
           <Property Name="SelfAppraisal" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Comments" Type="varchar" MaxLength="200" />
+          <Property Name="Comments" Type="ntext" />
           <Property Name="EvidenceFile" Type="varchar" MaxLength="200" />
           <Property Name="IsObjectiveApproved" Type="bit" />
           <Property Name="PerfomenseAppraisal" Type="decimal" Precision="18" Scale="2" />
@@ -485,25 +492,15 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DirectorActivities" EntityType="Self.DirectorActivities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeSummery" EntityType="Self.EmployeeSummery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FiscalYear" EntityType="Self.FiscalYear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HeadOfBusinessUnit" EntityType="Self.HeadOfBusinessUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Increament" EntityType="Self.Increament" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JobDescription" EntityType="Self.JobDescription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ObjectiveMain" EntityType="Self.ObjectiveMain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ObjectiveSub" EntityType="Self.ObjectiveSub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PerformanceAppraisal" EntityType="Self.PerformanceAppraisal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Increament" EntityType="Self.Increament" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Increament].[Id] AS [Id], 
-    [Increament].[LowerScore] AS [LowerScore], 
-    [Increament].[UpperScore] AS [UpperScore], 
-    [Increament].[Promotion] AS [Promotion], 
-    [Increament].[CreatedBy] AS [CreatedBy], 
-    [Increament].[CreatedDate] AS [CreatedDate], 
-    [Increament].[UpdatedBy] AS [UpdatedBy], 
-    [Increament].[UpdatedDate] AS [UpdatedDate]
-    FROM [dbo].[Increament] AS [Increament]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -578,6 +575,12 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
     <edmx:ConceptualModels>
       <Schema Namespace="AppraisalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AppraisalDbContext" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="SP_GetEmployeeByReportToForOrganogram">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetEmployeeByReportToForOrganogram1" ReturnType="Collection(AppraisalModel.SP_GetEmployeeByReportToForOrganogram_Result)">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
           <EntitySet Name="C__MigrationHistory" EntityType="AppraisalModel.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="AppraisalModel.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="AppraisalModel.AspNetUserClaims" />
@@ -588,8 +591,10 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <EntitySet Name="Designation" EntityType="AppraisalModel.Designation" />
           <EntitySet Name="DirectorActivities" EntityType="AppraisalModel.DirectorActivities" />
           <EntitySet Name="Employee" EntityType="AppraisalModel.Employee" />
+          <EntitySet Name="EmployeeSummery" EntityType="AppraisalModel.EmployeeSummery" />
           <EntitySet Name="FiscalYear" EntityType="AppraisalModel.FiscalYear" />
           <EntitySet Name="HeadOfBusinessUnit" EntityType="AppraisalModel.HeadOfBusinessUnit" />
+          <EntitySet Name="Increament" EntityType="AppraisalModel.Increament" />
           <EntitySet Name="JobDescription" EntityType="AppraisalModel.JobDescription" />
           <EntitySet Name="ObjectiveMain" EntityType="AppraisalModel.ObjectiveMain" />
           <EntitySet Name="ObjectiveSub" EntityType="AppraisalModel.ObjectiveSub" />
@@ -659,8 +664,13 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="Increament" EntityType="AppraisalModel.Increament" />
         </EntityContainer>
+        <ComplexType Name="SP_GetEmployeeByReportToForOrganogram_Result">
+          <Property Type="String" Name="EmployeeId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ReportToId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ReportToName" Nullable="true" MaxLength="50" />
+        </ComplexType>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -716,10 +726,10 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="isLocked" Type="Boolean" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="AppraisalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="AppraisalModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="AppraisalModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <Property Name="isLocked" Type="Boolean" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -791,6 +801,7 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="JobObjectiveDeadline" Type="DateTime" Precision="3" />
           <Property Name="SelfAppraisalDeadline" Type="DateTime" Precision="3" />
+          <Property Name="groups" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Designation" Relationship="AppraisalModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
           <NavigationProperty Name="DirectorActivities" Relationship="AppraisalModel.FK_DirectorActivities_Employee" FromRole="Employee" ToRole="DirectorActivities" />
           <NavigationProperty Name="Employee1" Relationship="AppraisalModel.FK_Employee_Employee" FromRole="Employee" ToRole="Employee1" />
@@ -799,6 +810,17 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <NavigationProperty Name="JobDescription" Relationship="AppraisalModel.FK_JobDescription_Employee" FromRole="Employee" ToRole="JobDescription" />
           <NavigationProperty Name="ObjectiveMain" Relationship="AppraisalModel.FK_ObjectiveMain_Employee" FromRole="Employee" ToRole="ObjectiveMain" />
           <NavigationProperty Name="PerformanceAppraisal" Relationship="AppraisalModel.FK_PerformanceAppraisal_Employee" FromRole="Employee" ToRole="PerformanceAppraisal" />
+        </EntityType>
+        <EntityType Name="EmployeeSummery">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="HeadOfDepartment" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="NumberOfEmployees" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="FiscalYear">
           <Key>
@@ -830,14 +852,27 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="FiscalYear" Relationship="AppraisalModel.FK_HeadOfBusinessUnit_FiscalYear" FromRole="HeadOfBusinessUnit" ToRole="FiscalYear" />
         </EntityType>
+        <EntityType Name="Increament">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LowerScore" Type="Int32" Nullable="false" />
+          <Property Name="UpperScore" Type="Int32" Nullable="false" />
+          <Property Name="Promotion" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="JobDescription">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
           <Property Name="EmployeeId" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="JobPurposes" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="KeyAccountabilities" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="JobPurposes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="KeyAccountabilities" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="IsReportToConfirmed" Type="Boolean" />
           <Property Name="IsHOBUConfirmed" Type="Boolean" />
           <Property Name="ReportToConfirmedDate" Type="DateTime" Precision="3" />
@@ -856,15 +891,15 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="OverallScore" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="OverallComment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="OverallComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="PersonalDevelopmentPlan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalScore" Type="Int32" />
           <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_ObjectiveMain_Employee" FromRole="ObjectiveMain" ToRole="Employee" />
           <NavigationProperty Name="ObjectiveSub" Relationship="AppraisalModel.FK_ObjectiveSub_ObjectiveMain" FromRole="ObjectiveMain" ToRole="ObjectiveSub" />
-          <Property Name="TotalScore" Type="Int32" />
         </EntityType>
         <EntityType Name="ObjectiveSub">
           <Key>
@@ -872,11 +907,11 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ObjectiveMainId" Type="Guid" Nullable="false" />
-          <Property Name="KPI" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="KPI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Weight" Type="Int32" />
-          <Property Name="Note" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SelfAppraisal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Comments" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EvidenceFile" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="IsObjectiveApproved" Type="Boolean" />
           <Property Name="PerfomenseAppraisal" Type="Decimal" Precision="18" Scale="2" />
@@ -1111,22 +1146,6 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <End Type="AppraisalModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="AppraisalModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
-        <EntityType Name="Increament">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="LowerScore" />
-            <PropertyRef Name="UpperScore" />
-            <PropertyRef Name="Promotion" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LowerScore" Type="Int32" Nullable="false" />
-          <Property Name="UpperScore" Type="Int32" Nullable="false" />
-          <Property Name="Promotion" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1240,6 +1259,7 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
           <EntitySetMapping Name="Employee">
             <EntityTypeMapping TypeName="AppraisalModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="groups" ColumnName="groups" />
                 <ScalarProperty Name="SelfAppraisalDeadline" ColumnName="SelfAppraisalDeadline" />
                 <ScalarProperty Name="JobObjectiveDeadline" ColumnName="JobObjectiveDeadline" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -1256,6 +1276,18 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
                 <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeSummery">
+            <EntityTypeMapping TypeName="AppraisalModel.EmployeeSummery">
+              <MappingFragment StoreEntitySet="EmployeeSummery">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="NumberOfEmployees" ColumnName="NumberOfEmployees" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="HeadOfDepartment" ColumnName="HeadOfDepartment" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1283,6 +1315,20 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
                 <ScalarProperty Name="FiscalYearId" ColumnName="FiscalYearId" />
                 <ScalarProperty Name="EllocatedBudget" ColumnName="EllocatedBudget" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Increament">
+            <EntityTypeMapping TypeName="AppraisalModel.Increament">
+              <MappingFragment StoreEntitySet="Increament">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Promotion" ColumnName="Promotion" />
+                <ScalarProperty Name="UpperScore" ColumnName="UpperScore" />
+                <ScalarProperty Name="LowerScore" ColumnName="LowerScore" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1385,20 +1431,6 @@ warning 6002: The table/view 'Appraisal.dbo.Increament' does not have a primary 
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Increament">
-            <EntityTypeMapping TypeName="AppraisalModel.Increament">
-              <MappingFragment StoreEntitySet="Increament">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Promotion" ColumnName="Promotion" />
-                <ScalarProperty Name="UpperScore" ColumnName="UpperScore" />
-                <ScalarProperty Name="LowerScore" ColumnName="LowerScore" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

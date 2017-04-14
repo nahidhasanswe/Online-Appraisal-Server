@@ -16,7 +16,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
         {
             var main =
                 GetUnitOfWork()
-                    .EmployeeRepository.Get()
+                    .EmployeeRepository.Get().Where(a=>a.EmployeeId != "0")
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {
@@ -38,6 +38,8 @@ namespace Appraisal.BusinessLogicLayer.Admin
                         JobPurpose = s.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.JobPurposes).FirstOrDefault(),
                         KeyAccountabilities = s.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.KeyAccountabilities).FirstOrDefault(),
                         s.JobObjectiveDeadline,
+                        s.groups,
+                        s.ReportTo,
                         s.SelfAppraisalDeadline,
                         isLocked = GetLock(s.EmployeeId)
                     })

@@ -35,6 +35,7 @@ namespace Appraisal.BusinessLogicLayer.HBOU
             if (desc != null)
             {
                 desc.IsReportToConfirmed = true;
+                desc.IsHOBUConfirmed = true;
                 desc.HOBUConfirmedDate = DateTime.Now;
                 GetUnitOfWork().Save();
             }

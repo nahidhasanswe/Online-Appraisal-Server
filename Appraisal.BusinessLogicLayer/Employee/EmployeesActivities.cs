@@ -17,8 +17,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
 
         public void Save(RepositoryPattern.Employee employee)
         {
-            bool isExists = GetUnitOfWork().EmployeeRepository.Get().Any(a => a.EmployeeId == employee.EmployeeId);
-            if (isExists)
+            var isExists = GetUnitOfWork().EmployeeRepository.Get().Where(a => a.EmployeeId == employee.EmployeeId).ToList();
+            if (isExists.Any())
             {
                 
                 employee.UpdatedBy = CreatedBy;
@@ -134,6 +134,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
                 objective.UpdatedBy = CreatedBy;
                 objective.UpdatedDate = DateTime.Now;
                 GetUnitOfWork().ObjectiveSubRepository.Update(objective);
+                GetUnitOfWork().Save();
             }
             else
             {

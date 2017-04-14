@@ -17,109 +17,165 @@ namespace AppraisalSystem.Areas.Admin.Controllers
         [Route("SaveFiscalYear")]
         public IHttpActionResult SaveFiscalYear([FromBody]FiscalYear fiscalYear)
         {
-            if (fiscalYear == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (fiscalYear == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                AdminActivities activities = new AdminActivities(new UnitOfWork());
+                activities.CreatedBy = User.Identity.GetUserName();
+                activities.SaveFiscalYear(fiscalYear);
+                return Ok(ActionMessage.SaveMessage);
             }
-            AdminActivities activities = new AdminActivities(new UnitOfWork());
-            activities.CreatedBy = User.Identity.GetUserName();
-            activities.SaveFiscalYear(fiscalYear);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
         [HttpPost]
         [Route("MakeABudget")]
         public IHttpActionResult MakeABudget([FromBody]DirectorActivities directorActivities)
         {
-            if (directorActivities == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (directorActivities == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                AdminActivities activitie = new AdminActivities(new UnitOfWork());
+                activitie.CreatedBy = User.Identity.GetUserName();
+                activitie.MakeABudget(directorActivities);
+                return Ok(ActionMessage.SaveMessage);
             }
-            AdminActivities activitie = new AdminActivities(new UnitOfWork());
-            activitie.CreatedBy = User.Identity.GetUserName();
-            activitie.MakeABudget(directorActivities);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
         [HttpPost]
         [Route("SetObjectDeadline")]
         public IHttpActionResult SetObjectDeadline([FromBody]DepartmentConfig config)
         {
-            if (config == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (config == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                AdminActivities activity = new AdminActivities(new UnitOfWork());
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.SetObjectDeadline(config);
+                return Ok(ActionMessage.SaveMessage);
             }
-            AdminActivities activity = new AdminActivities(new UnitOfWork());
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.SetObjectDeadline(config);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
         [HttpPost]
         [Route("SetAppraisalDeadline")]
         public IHttpActionResult SetAppraisalDeadline([FromBody]DepartmentConfig config)
         {
-            if (config == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (config == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                AdminActivities activity = new AdminActivities(new UnitOfWork());
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.SetAppraisalDeadline(config);
+                return Ok(ActionMessage.SaveMessage);
             }
-            AdminActivities activity = new AdminActivities(new UnitOfWork());
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.SetAppraisalDeadline(config);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
         [HttpPost]
         [Route("UpdateAppraisalDeadline")]
         public IHttpActionResult UpdateAppraisalDeadline([FromBody]DepartmentConfig config)
         {
-            if (config == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (config == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                AdminActivities activity = new AdminActivities(new UnitOfWork());
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.UpdateAppraisalDeadline(config);
+                return Ok(ActionMessage.SaveMessage);
             }
-            AdminActivities activity = new AdminActivities(new UnitOfWork());
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.UpdateAppraisalDeadline(config);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
         [HttpGet]
         [Route("ApproveJobDescriptionByHOBU/{id}")]
         public IHttpActionResult ApproveJobDescriptionByHOBU(string id)
         {
-            if (id == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (id == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                HboActivities activity = new HboActivities();
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.ApproveJobDescriptionByHOBU(id);
+                return Ok(ActionMessage.SaveMessage);
             }
-            HboActivities activity = new HboActivities();
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.ApproveJobDescriptionByHOBU(id);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
         [HttpGet]
         [Route("ApproveJobDescriptionByReportee/{id}")]
         public IHttpActionResult ApproveJobDescriptionByReportee(string id)
         {
-            if (id == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (id == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                HboActivities activity = new HboActivities();
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.ApproveJobDescriptionByReportee(id);
+                return Ok(ActionMessage.SaveMessage);
             }
-            HboActivities activity = new HboActivities();
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.ApproveJobDescriptionByReportee(id);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
         [HttpGet]
         [Route("ApproveObjectiveByReportee/{id}")]
         public IHttpActionResult ApproveObjectiveByReportee(string id)
         {
-            if (id == null)
+            try
             {
-                return BadRequest(ActionMessage.NullOrEmptyMessage);
+                if (id == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                HboActivities activity = new HboActivities();
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.ApproveObjectiveByReportee(id);
+                return Ok(ActionMessage.SaveMessage);
             }
-            HboActivities activity = new HboActivities();
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.ApproveObjectiveByReportee(id);
-            return Ok(ActionMessage.SaveMessage);
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
 
@@ -131,10 +187,17 @@ namespace AppraisalSystem.Areas.Admin.Controllers
             {
                 return BadRequest(ActionMessage.NullOrEmptyMessage);
             }
-            AdminActivities activity = new AdminActivities(new UnitOfWork());
-            activity.CreatedBy = User.Identity.GetUserName();
-            activity.UpdateIncreamentTableData(increament);
-            return Ok(ActionMessage.SaveMessage);
+            try
+            {
+                AdminActivities activity = new AdminActivities(new UnitOfWork());
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.UpdateIncreamentTableData(increament);
+                return Ok(ActionMessage.SaveMessage);
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
     }
 }

@@ -78,6 +78,8 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
         public void SetObjectDeadline(DepartmentConfig config)
         {
+            var res = GetUnitOfWork().DepartmentConfigRepository.Get().Any(a => a.DepartmentId == config.DepartmentId);
+            if(res) throw new Exception("This Department already set it's deadline.");
             if (config.Id != Guid.Empty)
             {
                 config.UpdatedBy = CreatedBy;
@@ -129,7 +131,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             }
             else
             {
-                throw new Exception("Job objective is not set yet");
+                throw new Exception("Job objective deadline is not set yet");
             }
             GetUnitOfWork().Save();
         }
@@ -144,8 +146,8 @@ namespace Appraisal.BusinessLogicLayer.Admin
             {
                 config.UpdatedBy = CreatedBy;
                 config.UpdatedDate = DateTime.Now;
-                config.JobObjectiveDeadline = configs.JobObjectiveDeadline;
-                config.SelfAppraisalDeadline = configs.SelfAppraisalDeadline;
+                config.JobObjectiveDeadline = configs.JobObjectiveDeadline ?? config.JobObjectiveDeadline;
+                config.SelfAppraisalDeadline = configs.SelfAppraisalDeadline ?? config.SelfAppraisalDeadline;
                 GetUnitOfWork().DepartmentConfigRepository.Update(config);
                 UpdateEmployeeForAppraisal(config);
             }
