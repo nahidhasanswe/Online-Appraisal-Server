@@ -58,6 +58,7 @@ namespace AppraisalSystem.Providers
             IList<string> roleName = await userManager.GetRolesAsync(user.Id);
 
 
+
             AuthenticationProperties properties = CreateProperties(EmployeeName, roleName.FirstOrDefault().ToString());
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
