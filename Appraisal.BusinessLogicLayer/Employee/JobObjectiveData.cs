@@ -29,6 +29,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         Designation = s.ObjectiveMain.Employee.Designation.Name,
                         Department = s.ObjectiveMain.Employee.Section.Department.Name,
                         Section = s.ObjectiveMain.Employee.Section.Name,
+                        EmployeeCompany = s.ObjectiveMain.Employee.groups,
+                        ReportToCompany = s.ObjectiveMain.Employee.Employee2.groups,
                         JoiningDate = s.ObjectiveMain.Employee.JoiningDate,
                         ReportToName = s.ObjectiveMain.Employee.Employee2.EmployeeName,
                         ReportToDesignation = s.ObjectiveMain.Employee.Employee2.Designation.Name,
@@ -94,7 +96,9 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         objectiveMainId = s.Id,
                         employeeName = s.Employee.EmployeeName ?? "",
                         employeeId = s.EmployeeId,
-                        section = s.Employee.Section.Name ?? ""
+                        section = s.Employee.Section.Name ?? "",
+                        EmployeeCompany = s.Employee.groups,
+                        ReportToCompany = s.Employee.Employee2.groups,
                     })
                     .ToList();
             return main;
@@ -112,6 +116,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         objectiveMainId = s.Id,
                         s.EmployeeId,
                         employeeName = s.Employee.EmployeeName,
+                        EmployeeCompany = s.Employee.groups,
+                        ReportToCompany = s.Employee.Employee2.groups,
                         objectiveSub = s.ObjectiveSub
                         .Select(c => new
                         {
@@ -149,6 +155,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                           Designation = s.Designation.Name,
                           Department = s.Section.Department.Name,
                           Section = s.Section.Name,
+                          EmployeeCompany = s.groups,
+                          ReportToCompany = s.Employee2.groups,
                           Location = s.Location,
                           JoiningDate = s.JoiningDate,
                           ReportToName = s.Employee2.EmployeeName,
@@ -177,6 +185,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                           department = s.Section.Department.Name ?? "",
                           section = s.Section.Name ?? "",
                           s.Location,
+                          EmployeeCompany = s.groups,
+                          ReportToCompany = s.Employee2.groups,
                           reportToName = s.Employee2.EmployeeName ?? "",
                           reportToId = s.Employee2.EmployeeId ?? "",
                           reportToDesignation = s.Employee2.Email ?? ""
@@ -202,6 +212,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         Designation = s.Employee.Designation.Name,
                         Department = s.Employee.Section.Department.Name,
                         Section = s.Employee.Section.Name,
+                        EmployeeCompany = s.Employee.groups,
+                        ReportToCompany = s.Employee.Employee2.groups,
                         Location = s.Employee.Location,
                         JoiningDate = s.Employee.JoiningDate,
                         ReportToName = s.Employee.Employee2.EmployeeName,
@@ -232,6 +244,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         isReportToConfirm = s.Employee.JobDescription.Select(a=>a.IsReportToConfirmed).FirstOrDefault(),
                         Department = s.Employee.Section.Department.Name,
                         Section = s.Employee.Section.Name,
+                        EmployeeCompany = s.Employee.groups,
+                        ReportToCompany = s.Employee.Employee2.groups,
                         Location = s.Employee.Location,
                         JoiningDate = s.Employee.JoiningDate,
                         ReportToName = s.Employee.Employee2.EmployeeName,
@@ -279,6 +293,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                     {
                         EmployeeId = s.ObjectiveMain.EmployeeId,
                         EmployeeName = s.ObjectiveMain.Employee.EmployeeName,
+                        EmployeeCompany = s.ObjectiveMain.Employee.groups,
+                        ReportToCompany = s.ObjectiveMain.Employee.Employee2.groups,
                         Email = s.ObjectiveMain.Employee.Email,
                         Designation = s.ObjectiveMain.Employee.Designation.Name,
                         Department = s.ObjectiveMain.Employee.Section.Department.Name,
@@ -317,6 +333,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         EmployeeId = s.ObjectiveMain.EmployeeId,
                         EmployeeName = s.ObjectiveMain.Employee.EmployeeName,
                         Email = s.ObjectiveMain.Employee.Email,
+                        EmployeeCompany = s.ObjectiveMain.Employee.groups,
+                        ReportToCompany = s.ObjectiveMain.Employee.Employee2.groups,
                         Designation = s.ObjectiveMain.Employee.Designation.Name,
                         Department = s.ObjectiveMain.Employee.Section.Department.Name,
                         Section = s.ObjectiveMain.Employee.Section.Name,
@@ -358,6 +376,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
             {
                 s.EmployeeId,
                 s.Employee.EmployeeName,
+                EmployeeCompany = s.Employee.groups,
+                ReportToCompany = s.Employee.Employee2.groups,
                 section = s.Employee.Section.Name,
                 sectionID = s.Employee.SectionId,
                 department = s.Employee.Section.Department.Name,

@@ -21,20 +21,12 @@ namespace RepositoryPattern
         private Repository<Increament> _increamentRepository;
         private Repository<AspNetUsers> _aspNetUsersRepository;
         private Repository<EmployeeSummery> _employeeSummeryRepository;
+        private Repository<Company> _compnayRepository;
 
 
-        public Repository<EmployeeSummery> EmployeeSummeryRepository
-        {
-            get
-            {
+        public Repository<Company> CompanyRepository => _compnayRepository ?? (_compnayRepository = new Repository<Company>(context));
+        public Repository<EmployeeSummery> EmployeeSummeryRepository => _employeeSummeryRepository ?? (_employeeSummeryRepository = new Repository<EmployeeSummery>(context));
 
-                if (_employeeSummeryRepository == null)
-                {
-                    _employeeSummeryRepository = new Repository<EmployeeSummery>(context);
-                }
-                return _employeeSummeryRepository;
-            }
-        }
         public Repository<AspNetUsers> AspNetUsersRepository
         {
             get

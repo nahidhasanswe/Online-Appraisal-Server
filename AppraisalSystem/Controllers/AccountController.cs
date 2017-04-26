@@ -95,7 +95,6 @@ namespace AppraisalSystem.Controllers
 
             try
             {
-
                 IdentityResult result = await UserManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
@@ -107,12 +106,12 @@ namespace AppraisalSystem.Controllers
                     employees.Save(new Employee { EmployeeId = model.EmployeeId, EmployeeName = model.EmployeeName, DesignationId = model.DesignationId, SectionId = model.SectionId, Location = model.Location, ReportTo = model.ReportTo, JoiningDate = model.JoiningDate, Email = model.Email, groups = model.groups });
                 }
 
-                var ReportTo = await UserManager.FindByNameAsync(model.ReportTo);
+                var reportTo = await UserManager.FindByNameAsync(model.ReportTo);
 
-                if (ReportTo.Email != null)
+                if (reportTo?.Email != null)
                 {
                     var url = "/#/othersObjectives?id=" + user.UserName;
-                    await UserManager.SendEmailAsync(ReportTo.Id, "Confirm Job Description", "Mr/s " + model.EmployeeName + " submit a job Description.Please Approve the job description. To view the Job description please click <a href=\"" + new Uri(url) + "\">here</a>");
+                    await UserManager.SendEmailAsync(reportTo.Id, "Confirm Job Description", "Mr/s " + model.EmployeeName + " submit a job Description.Please Approve the job description. To view the Job description please click <a href=\"" + new Uri(url) + "\">here</a>");
                 }
                 return Ok("The Employee Password is " + password + " and Role is " + UserManager.GetRoles(user.Id).SingleOrDefault());
 

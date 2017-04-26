@@ -34,6 +34,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         designation = s.Designation.Name??"",
                         department = s.Section.Department.Name??"",
                         section = s.Section.Name??"",
+                        EmployeeCompany = s.groups,
+                        ReportToCompany = s.Employee2.groups,
                         s.Location,
                         reportToName = s.Employee2.EmployeeName,
                         reportToId = s.Employee2.EmployeeId,
@@ -104,8 +106,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
                 }).ToList();
             return objective;
         }
-
-       
+        
         public object GetJobObjectiveById(Guid objectiveId)
         {
             var objective = GetUnitOfWork().ObjectiveMainRepository.Get()
@@ -153,7 +154,9 @@ namespace Appraisal.BusinessLogicLayer.Employee
                                 s.EmployeeName,
                                 section = s.Section.Name,
                                 department = s.Section.Department.Name,
-                                s.JoiningDate
+                                s.JoiningDate,
+                                EmployeeCompany = s.groups,
+                                ReportToCompany = s.Employee2.groups
                             }).ToList();
             return objective;
         }
@@ -181,6 +184,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         department = s.Section.Department.Name ?? "",
                         section = s.Section.Name ?? "",
                         s.Location,
+                        EmployeeCompany = s.groups,
+                        ReportToCompany = s.Employee2.groups,
                         reportTo = GetUnitOfWork().EmployeeRepository.Get().Where(a => a.EmployeeId == s.ReportTo).Select(b => new
                         {
                             reportToId = b.EmployeeId,
@@ -191,6 +196,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
                     .ToList();
             return employeess;
         }
+
         public object GetOtherEmployeesList(string userId)
         {
 
@@ -204,6 +210,8 @@ namespace Appraisal.BusinessLogicLayer.Employee
                         s.EmployeeName,
                         s.Email,
                         s.JoiningDate,
+                        EmployeeCompany = s.groups,
+                        ReportToCompany = s.Employee2.groups,
                         designation = s.Designation.Name ?? "",
                         department = s.Section.Department.Name ?? "",
                         section = s.Section.Name ?? "",
@@ -220,10 +228,9 @@ namespace Appraisal.BusinessLogicLayer.Employee
             return employeess;
         }
 
-
         public string GetEmployeeNameByEmployeeId(string id)
         {
-            return GetUnitOfWork().EmployeeRepository.Get().Where(x => x.EmployeeId == id).Select(s => s.EmployeeName).SingleOrDefault().ToString();
+            return GetUnitOfWork().EmployeeRepository.Get().Where(x => x.EmployeeId == id).Select(s => s.EmployeeName).FirstOrDefault();
         }
 
         public UnitOfWork GetUnitOfWork()

@@ -48,6 +48,7 @@
     <Compile Include="Admin\AdminData.cs" />
     <Compile Include="Admin\JobObjective.cs" />
     <Compile Include="ChangingDeadlinePoco.cs" />
+    <Compile Include="Core\CompanyDll.cs" />
     <Compile Include="Core\DirectorActivities.cs" />
     <Compile Include="Core\EmployeeShortList.cs" />
     <Compile Include="Core\OrganogramData.cs" />

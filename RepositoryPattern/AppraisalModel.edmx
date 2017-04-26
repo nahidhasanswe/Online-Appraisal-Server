@@ -67,6 +67,13 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="isLocked" Type="bit" />
         </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="80" />
+        </EntityType>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="Id" />
@@ -189,8 +196,8 @@
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EmployeeId" Type="varchar" MaxLength="30" />
-          <Property Name="JobPurposes" Type="text" />
-          <Property Name="KeyAccountabilities" Type="text" />
+          <Property Name="JobPurposes" Type="varchar(max)" />
+          <Property Name="KeyAccountabilities" Type="varchar(max)" />
           <Property Name="IsReportToConfirmed" Type="bit" />
           <Property Name="IsHOBUConfirmed" Type="bit" />
           <Property Name="ReportToConfirmedDate" Type="datetime" />
@@ -208,12 +215,12 @@
           <Property Name="EmployeeId" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="OverallScore" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="OverallComment" Type="ntext" />
+          <Property Name="OverallComment" Type="varchar" MaxLength="200" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="30" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UpdatedBy" Type="varchar" MaxLength="30" />
           <Property Name="UpdatedDate" Type="datetime" />
-          <Property Name="PersonalDevelopmentPlan" Type="ntext" />
+          <Property Name="PersonalDevelopmentPlan" Type="nvarchar(max)" />
           <Property Name="TotalScore" Type="int" />
         </EntityType>
         <EntityType Name="ObjectiveSub">
@@ -222,11 +229,11 @@
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ObjectiveMainId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="KPI" Type="text" />
+          <Property Name="KPI" Type="varchar" MaxLength="200" />
           <Property Name="Weight" Type="int" />
-          <Property Name="Note" Type="ntext" />
+          <Property Name="Note" Type="nvarchar(max)" />
           <Property Name="SelfAppraisal" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Comments" Type="ntext" />
+          <Property Name="Comments" Type="varchar" MaxLength="200" />
           <Property Name="EvidenceFile" Type="varchar" MaxLength="200" />
           <Property Name="IsObjectiveApproved" Type="bit" />
           <Property Name="PerfomenseAppraisal" Type="decimal" Precision="18" Scale="2" />
@@ -267,6 +274,16 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DeparmentId" Type="uniqueidentifier" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -357,6 +374,18 @@
             </Principal>
             <Dependent Role="DirectorActivities">
               <PropertyRef Name="FiscalYearId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="groups" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -480,6 +509,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_GetEmployeeByReportToForOrganogram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spJobDescriptionForChart" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="AppraisalModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -487,6 +520,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepartmentConfig" EntityType="Self.DepartmentConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Designation" EntityType="Self.Designation" Schema="dbo" store:Type="Tables" />
@@ -501,6 +535,7 @@
           <EntitySet Name="ObjectiveSub" EntityType="Self.ObjectiveSub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PerformanceAppraisal" EntityType="Self.PerformanceAppraisal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Section" EntityType="Self.Section" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -528,6 +563,10 @@
           <AssociationSet Name="FK_DirectorActivities_FiscalYear" Association="Self.FK_DirectorActivities_FiscalYear">
             <End Role="FiscalYear" EntitySet="FiscalYear" />
             <End Role="DirectorActivities" EntitySet="DirectorActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Company" Association="Self.FK_Employee_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_Designation" Association="Self.FK_Employee_Designation">
             <End Role="Designation" EntitySet="Designation" />
@@ -600,6 +639,7 @@
           <EntitySet Name="ObjectiveSub" EntityType="AppraisalModel.ObjectiveSub" />
           <EntitySet Name="PerformanceAppraisal" EntityType="AppraisalModel.PerformanceAppraisal" />
           <EntitySet Name="Section" EntityType="AppraisalModel.Section" />
+          <EntitySet Name="sysdiagrams" EntityType="AppraisalModel.sysdiagrams" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="AppraisalModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -663,6 +703,15 @@
           <AssociationSet Name="AspNetUserRoles" Association="AppraisalModel.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <FunctionImport Name="SP_GetEmployeeByReportToForOrganogram2" ReturnType="Collection(AppraisalModel.SP_GetEmployeeByReportToForOrganogram2_Result)">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spJobDescriptionForChart" ReturnType="Collection(AppraisalModel.spJobDescriptionForChart_Result)" />
+          <EntitySet Name="Company" EntityType="AppraisalModel.Company" />
+          <AssociationSet Name="FK_Employee_Company" Association="AppraisalModel.FK_Employee_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
         </EntityContainer>
         <ComplexType Name="SP_GetEmployeeByReportToForOrganogram_Result">
@@ -810,6 +859,7 @@
           <NavigationProperty Name="JobDescription" Relationship="AppraisalModel.FK_JobDescription_Employee" FromRole="Employee" ToRole="JobDescription" />
           <NavigationProperty Name="ObjectiveMain" Relationship="AppraisalModel.FK_ObjectiveMain_Employee" FromRole="Employee" ToRole="ObjectiveMain" />
           <NavigationProperty Name="PerformanceAppraisal" Relationship="AppraisalModel.FK_PerformanceAppraisal_Employee" FromRole="Employee" ToRole="PerformanceAppraisal" />
+          <NavigationProperty Name="Company" Relationship="AppraisalModel.FK_Employee_Company" FromRole="Employee" ToRole="Company" />
         </EntityType>
         <EntityType Name="EmployeeSummery">
           <Key>
@@ -891,7 +941,7 @@
           <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" />
           <Property Name="OverallScore" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="OverallComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OverallComment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -907,11 +957,11 @@
           </Key>
           <Property Name="Id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ObjectiveMainId" Type="Guid" Nullable="false" />
-          <Property Name="KPI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="KPI" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Weight" Type="Int32" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SelfAppraisal" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="EvidenceFile" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="IsObjectiveApproved" Type="Boolean" />
           <Property Name="PerfomenseAppraisal" Type="Decimal" Precision="18" Scale="2" />
@@ -957,6 +1007,16 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Department" Relationship="AppraisalModel.FK_Section_Department" FromRole="Section" ToRole="Department" />
           <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_Employee_Section" FromRole="Section" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="AppraisalModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
@@ -1145,6 +1205,39 @@
         <Association Name="AspNetUserRoles">
           <End Type="AppraisalModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="AppraisalModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="SP_GetEmployeeByReportToForOrganogram2_Result">
+          <Property Type="String" Name="EmployeeId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="EmployeeName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Designation" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ReportTo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ReportToName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="GroupName" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="spJobDescriptionForChart_Result">
+          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="unsubmited" Nullable="true" />
+          <Property Type="Int32" Name="submited" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="AppraisalModel.FK_Employee_Company" FromRole="Company" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_Employee_Company">
+          <End Type="AppraisalModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="AppraisalModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="groups" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -1423,6 +1516,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AppraisalModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="AppraisalModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetUsers">
               <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -1431,6 +1535,35 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetEmployeeByReportToForOrganogram2" FunctionName="AppraisalModel.Store.SP_GetEmployeeByReportToForOrganogram">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppraisalModel.SP_GetEmployeeByReportToForOrganogram2_Result">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="ReportTo" ColumnName="ReportTo" />
+                <ScalarProperty Name="ReportToName" ColumnName="ReportToName" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spJobDescriptionForChart" FunctionName="AppraisalModel.Store.spJobDescriptionForChart">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AppraisalModel.spJobDescriptionForChart_Result">
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="unsubmited" ColumnName="unsubmited" />
+                <ScalarProperty Name="submited" ColumnName="submited" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="AppraisalModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -46,6 +46,8 @@ namespace RepositoryPattern
         public virtual DbSet<ObjectiveSub> ObjectiveSub { get; set; }
         public virtual DbSet<PerformanceAppraisal> PerformanceAppraisal { get; set; }
         public virtual DbSet<Section> Section { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
     
         public virtual int SP_GetEmployeeByReportToForOrganogram(string id)
         {
@@ -63,6 +65,20 @@ namespace RepositoryPattern
                 new ObjectParameter("id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetEmployeeByReportToForOrganogram_Result>("SP_GetEmployeeByReportToForOrganogram1", idParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetEmployeeByReportToForOrganogram2_Result> SP_GetEmployeeByReportToForOrganogram2(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetEmployeeByReportToForOrganogram2_Result>("SP_GetEmployeeByReportToForOrganogram2", idParameter);
+        }
+    
+        public virtual ObjectResult<spJobDescriptionForChart_Result> spJobDescriptionForChart()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spJobDescriptionForChart_Result>("spJobDescriptionForChart");
         }
     }
 }
