@@ -13,6 +13,7 @@ namespace AppraisalSystem.Areas.Core.Controllers
     {
         [HttpPost]
         [Route("Save")]
+        [Authorize(Roles = "Super Admin,Department Head")]
         public IHttpActionResult Save(EmployeeSummery summery)
         {
             try
@@ -32,7 +33,9 @@ namespace AppraisalSystem.Areas.Core.Controllers
             }
         }
 
+        [HttpGet]
         [Route("GetEmployeeSummery")]
+        [Authorize(Roles = "Super Admin,Department Head")]
         public IHttpActionResult GetEmployeeSummery()
         {
             try
@@ -46,8 +49,10 @@ namespace AppraisalSystem.Areas.Core.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
         [HttpPost]
         [Route("Delete")]
+        [Authorize(Roles = "Super Admin,Department Head")]
         public IHttpActionResult Delete(EmployeeSummery summery)
         {
             try

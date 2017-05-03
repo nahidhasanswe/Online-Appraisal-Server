@@ -50,6 +50,7 @@
     <Compile Include="ChangingDeadlinePoco.cs" />
     <Compile Include="Core\CompanyDll.cs" />
     <Compile Include="Core\DirectorActivities.cs" />
+    <Compile Include="Core\EmailNotifier.cs" />
     <Compile Include="Core\EmployeeShortList.cs" />
     <Compile Include="Core\OrganogramData.cs" />
     <Compile Include="Core\Validation.cs" />

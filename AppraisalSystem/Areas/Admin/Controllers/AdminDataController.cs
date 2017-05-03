@@ -11,14 +11,17 @@ namespace AppraisalSystem.Areas.Admin.Controllers
     {
         [HttpGet]
         [Route("GetAllEmployees")]
+        [Authorize(Roles ="Super Admin")]
         public IHttpActionResult GetAllEmployees()
         {
             AdminData data = new AdminData();
             var emp = data.GetAllEmployees();
             return Ok(emp);
         }
+
         [HttpGet]
         [Route("GetObjectiveByEmployeeId/{id}")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetObjectiveByEmployeeId(string id)
         {
             AdminData data = new AdminData();
@@ -79,6 +82,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("GetIncreamentTableData")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetIncreamentTableData()
         {
             AdminData data = new AdminData();

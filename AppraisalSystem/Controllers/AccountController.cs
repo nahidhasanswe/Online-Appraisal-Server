@@ -106,12 +106,12 @@ namespace AppraisalSystem.Controllers
                     employees.Save(new Employee { EmployeeId = model.EmployeeId, EmployeeName = model.EmployeeName, DesignationId = model.DesignationId, SectionId = model.SectionId, Location = model.Location, ReportTo = model.ReportTo, JoiningDate = model.JoiningDate, Email = model.Email, groups = model.groups });
                 }
 
-                var reportTo = await UserManager.FindByNameAsync(model.ReportTo);
+                var employee = await UserManager.FindByNameAsync(model.EmployeeId);
 
-                if (reportTo?.Email != null)
+                if (employee?.Email != null)
                 {
-                    var url = "/#/othersObjectives?id=" + user.UserName;
-                    await UserManager.SendEmailAsync(reportTo.Id, "Confirm Job Description", "Mr/s " + model.EmployeeName + " submit a job Description.Please Approve the job description. To view the Job description please click <a href=\"" + new Uri(url) + "\">here</a>");
+                    var url = @"/#/login";
+                    await UserManager.SendEmailAsync(employee.Id, "Regisatration Confirmation", "Mr/s " + model.EmployeeName + "<br/> Your Registration is complete. Your password is: "+password+". please click <a href=\"" + new Uri(url) + "\">here</a> to login");
                 }
                 return Ok("The Employee Password is " + password + " and Role is " + UserManager.GetRoles(user.Id).SingleOrDefault());
 
@@ -232,6 +232,25 @@ namespace AppraisalSystem.Controllers
                 }
             }
             return BadRequest("Internal Server Problem");
+        }
+
+        [Route("UpdateEmployeeRole")]
+        [HttpPost]
+        [Authorize(Roles = "Super Admin")]
+        public async Task<IHttpActionResult> UpdateRole(UpdateRole role)
+        {
+                var user = await UserManager.FindByNameAsync(role.EmployeeId); //UserManager.FindById(role.EmployeeId);
+                var oldRoleName = UserManager.GetRoles(user.Id).FirstOrDefault();
+
+                if (oldRoleName.Equals(role.Role))
+                {
+                    return BadRequest("The Role is already assign to this employee");
+                }
+
+                UserManager.RemoveFromRole(user.Id, oldRoleName);
+                UserManager.AddToRole(user.Id, role.Role);
+
+                return Ok();
         }
 
 

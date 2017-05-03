@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using AppraisalSystem.Models;
 using RepositoryPattern;
 
 namespace Appraisal.BusinessLogicLayer.Admin
 {
-    public class JobObjective 
+    public class JobObjective
     {
         private readonly UnitOfWork _unitOfWork;
+
         public string CreatedBy { get; set; }
 
         public JobObjective(UnitOfWork unitOfWork)
@@ -17,11 +17,23 @@ namespace Appraisal.BusinessLogicLayer.Admin
             _unitOfWork = unitOfWork;
         }
 
+        public string GetReportTo(string id)
+        {
+            return GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == id)?.Employee2.EmployeeName;
+        }
+
         public void SaveObjective(ObjectiveSub sub)
         {
+            //EmailNotifier notifier = new EmailNotifier();
             InsertObjectiveSub(sub);
             GetUnitOfWork().Save();
+
+            string email = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.Employee2?.Email;
+            string sender = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.EmployeeName;
+            //if(email != null)
+            //notifier.Send("othersObjectives?id=" + CreatedBy, "Dear sir,\n I have submited my job objective on " + DateTime.Now.Date + ".", email, sender);
         }
+
         public void SavePerformanceAppraisal(List<PerformanceAppraisalPoco> list)
         {
             var id = list.Select(s => s.ObjectiveId).FirstOrDefault();
@@ -48,7 +60,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
                 }
                 else
                 {
-                    throw new Exception("We can't find objective with ID: "+poco.ObjectiveId);
+                    throw new Exception("We can't find objective with ID: " + poco.ObjectiveId);
                 }
             }
             var main = GetUnitOfWork().ObjectiveMainRepository.GetById(mainId);
@@ -74,69 +86,62 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
         private void InsertObjectiveSub(ObjectiveSub sub)
         {
-
-
-
             var mainId =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a => a.EmployeeId == CreatedBy)
+                    .Where(a => a.EmployeeId == CreatedBy && a.IsActive == true)
                     .Select(s => s.Id)
                     .FirstOrDefault();
             var weight =
               GetUnitOfWork().ObjectiveSubRepository.Get().Where(a => a.ObjectiveMainId == mainId).Sum(s => s.Weight) + sub.Weight;
-           
+
             if (sub.Id != null)
-                {
+            {
                 if (weight - sub.Weight > 100)
                 {
                     throw new Exception("Weight should not be greater then 100");
                 }
                 ObjectiveSub ob = GetUnitOfWork().ObjectiveSubRepository.Get().FirstOrDefault(a => a.Id == sub.Id);
-                    if (ob != null)
-                    {
-                        ob.KPI = sub.KPI;
-                        ob.Note = sub.Note;
-                        ob.Target = sub.Target;
-                        ob.Weight = sub.Weight;
-                        ob.Title = sub.Title;
-                        ob.UpdatedBy = CreatedBy;
-                        ob.UpdatedDate = DateTime.Now;
-                    }
-                    GetUnitOfWork().ObjectiveSubRepository.Update(ob);
-                }
-                else
+                if (ob != null)
                 {
+                    ob.KPI = sub.KPI;
+                    ob.Note = sub.Note;
+                    ob.Target = sub.Target;
+                    ob.Weight = sub.Weight;
+                    ob.Title = sub.Title;
+                    ob.UpdatedBy = CreatedBy;
+                    ob.UpdatedDate = DateTime.Now;
+                }
+                GetUnitOfWork().ObjectiveSubRepository.Update(ob);
+            }
+            else
+            {
                 if (weight > 100)
                 {
                     throw new Exception("Weight should not be greater then 100");
                 }
                 if (mainId == Guid.Empty)
+                {
+                    ObjectiveMain main = new ObjectiveMain()
                     {
-                        ObjectiveMain main = new ObjectiveMain()
-                        {
-                            EmployeeId = CreatedBy
-                        };
-                        InsertObjectiveMain(main);
-                        mainId = main.Id;
-                    }
-                    sub.CreatedBy = CreatedBy;
-                    sub.CreatedDate = DateTime.Now;
-                    sub.ObjectiveMainId = mainId;
-                    sub.IsObjectiveApproved = false;
-                    sub.Status = true;
-                    sub.Id = UniqueNumber.GenerateUniqueNumber();
-                    GetUnitOfWork().ObjectiveSubRepository.Insert(sub);
+                        EmployeeId = CreatedBy
+                    };
+                    InsertObjectiveMain(main);
+                    mainId = main.Id;
                 }
-           
+                sub.CreatedBy = CreatedBy;
+                sub.CreatedDate = DateTime.Now;
+                sub.ObjectiveMainId = mainId;
+                sub.IsObjectiveApproved = false;
+                sub.Status = true;
+                sub.Id = UniqueNumber.GenerateUniqueNumber();
+                GetUnitOfWork().ObjectiveSubRepository.Insert(sub);
+            }
+
         }
-
-
-     
 
         public void InsertSeflAppraisalToMain(ObjectiveMain main)
         {
-            
             var m = GetUnitOfWork().ObjectiveMainRepository.Get().FirstOrDefault(a => a.Id == main.Id);
             if (m != null)
             {
@@ -154,6 +159,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             }
             GetUnitOfWork().Save();
         }
+
         private void InsertSelfAppraisal(ICollection<ObjectiveSub> objectiveSub, Guid mainId)
         {
             foreach (ObjectiveSub sub in objectiveSub)
@@ -177,6 +183,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
                 }
             }
         }
+
         public UnitOfWork GetUnitOfWork()
         {
             return _unitOfWork;

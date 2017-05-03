@@ -56,7 +56,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             var list =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a => a.EmployeeId == employeeId)
+                    .Where(a => a.EmployeeId == employeeId && a.IsActive == true)
                     .Select(s => new
                     {
                         s.Id,
@@ -82,6 +82,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
                             a.EvidenceFile
                         }).ToList()
                     }).FirstOrDefault();
+            if(list == null) throw new Exception("The employee is active now!");
             return list;
         }
 
@@ -145,7 +146,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             {
                 var employee =
                   GetUnitOfWork()
-                      .EmployeeRepository.Get().Where(e => e.EmployeeId == id).ToList()
+                      .EmployeeRepository.Get().Where(e => e.EmployeeId == id && e.IsActive == true).ToList()
                       .Select(s => new
                       {
                           s.EmployeeId,
@@ -174,7 +175,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             {
                 var employee =
                   GetUnitOfWork()
-                      .EmployeeRepository.Get().Where(e => e.EmployeeId == id).ToList()
+                      .EmployeeRepository.Get().Where(e => e.EmployeeId == id && e.IsActive == true).ToList()
                       .Select(s => new
                       {
                           s.EmployeeId,
@@ -189,7 +190,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
                           ReportToCompany = s.Employee2.groups,
                           reportToName = s.Employee2.EmployeeName ?? "",
                           reportToId = s.Employee2.EmployeeId ?? "",
-                          reportToDesignation = s.Employee2.Email ?? ""
+                          reportToDesignation = s.Employee2.Designation.Name ?? ""
                       })
                       .FirstOrDefault();
                 return employee;
@@ -201,7 +202,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             var main =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a => a.Employee.ReportTo == id)
+                    .Where(a => a.Employee.ReportTo == id && a.Employee.IsActive == true && a.IsActive == true)
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {
@@ -232,7 +233,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             var main =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a => a.EmployeeId == id )
+                    .Where(a => a.EmployeeId == id && a.IsActive == true)
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {

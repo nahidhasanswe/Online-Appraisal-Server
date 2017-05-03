@@ -34,7 +34,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             }
             GetUnitOfWork().Save();
         }
-     
+
         public void MakeABudget(DirectorActivities activities)
         {
             if (activities.Id != Guid.Empty)
@@ -76,10 +76,10 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
         }
 
-        public void SetObjectDeadline(DepartmentConfig config)
+        public void SetSeflfAppraisalDeadline(DepartmentConfig config)
         {
             var res = GetUnitOfWork().DepartmentConfigRepository.Get().Any(a => a.DepartmentId == config.DepartmentId);
-            if(res) throw new Exception("This Department already set it's deadline.");
+            if (res) throw new Exception("This Department already set it's deadline.");
             if (config.Id != Guid.Empty)
             {
                 config.UpdatedBy = CreatedBy;
@@ -189,6 +189,21 @@ namespace Appraisal.BusinessLogicLayer.Admin
         public void Dispose()
         {
             GetUnitOfWork().Dispose();
+        }
+
+        public void DeleteEmployee(string id)
+        {
+            var emp = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == id);
+            if (emp != null)
+            {
+                if (emp.IsActive == false)
+                {
+                    throw new Exception("The employee already deleted!");
+                }
+                emp.IsActive = false;
+                GetUnitOfWork().EmployeeRepository.Update(emp);
+                GetUnitOfWork().Save();
+            }
         }
     }
 }

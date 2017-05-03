@@ -11,12 +11,13 @@ using RepositoryPattern;
 
 namespace AppraisalSystem.Areas.Core.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/Core/Company")]
     public class CompanyController : ApiController
     {
-        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         [Route("Save")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult Save([FromBody]Company company)
         {
             try
@@ -31,9 +32,10 @@ namespace AppraisalSystem.Areas.Core.Controllers
             }
         }
 
-        [Authorize(Roles = Roles.Admin)]
+
         [HttpGet]
         [Route("Get")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult Get()
         {
             try
@@ -46,10 +48,10 @@ namespace AppraisalSystem.Areas.Core.Controllers
                 return BadRequest(exception.Message);
             }
         }
-
-        [Authorize(Roles = Roles.Admin)]
+         
         [HttpGet]
         [Route("GetById/{id}")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetById(string id)
         {
             try
@@ -62,10 +64,10 @@ namespace AppraisalSystem.Areas.Core.Controllers
                 return BadRequest(exception.Message);
             }
         }
-
-        [Authorize(Roles = Roles.SuperAdmin)]
+        
         [HttpPost]
         [Route("Delete/{id}")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult Save(string id)
         {
             try

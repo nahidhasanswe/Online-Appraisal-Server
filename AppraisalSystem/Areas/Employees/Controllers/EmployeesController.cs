@@ -17,6 +17,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
     {
         [HttpPost]
         [Route("Save")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult Save(Employee employee)
         {
             try
@@ -62,7 +63,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
                 employees.CreatedBy = User.Identity.GetUserName();
                 if (main.Id == Guid.Empty) return BadRequest("Objective main id can't be null");
 
-                if (!validation.IsSelfAppraisalDeadLineNull(employees.CreatedBy))
+                if (validation.IsSelfAppraisalDeadLineNull(employees.CreatedBy))
                 {
                     return BadRequest("Your self appraisal deadline set  yet by your supervisor!");
                 }
@@ -72,9 +73,8 @@ namespace AppraisalSystem.Areas.Employees.Controllers
                     return BadRequest("You have missed your deadline");
                 }
 
-
                 employees.InsertSeflAppraisalToMain(main);
-                return Ok("You are successfully submitted self appraisal to " + employees.CreatedBy);
+                return Ok("You are successfully submitted self appraisal to " + employees.GetReportTo(employees.CreatedBy));
             }
             catch (Exception exception)
             {
@@ -84,6 +84,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
 
         [HttpPost]
         [Route("SaveDesignation")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult SaveDesignation(Designation designation)
         {
             try
@@ -107,6 +108,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
 
         [HttpPost]
         [Route("SaveDepartment")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult SaveDepartment(Department department)
         {
             try
@@ -128,6 +130,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
 
         [HttpPost]
         [Route("SaveSection")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult SaveSection(Section section)
         {
             try

@@ -29,6 +29,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("GetIndividualEmployeeObjectiveList")]
+        [Authorize(Roles = "Super Admin,Department Head")]
         public IHttpActionResult GetEmployeesObjectiveForHOBU()
         {
             //string userId = User.Identity.GetUserName();
@@ -36,6 +37,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
             HofBUData data = new HofBUData();
             return Ok(data.GetEmployeesObjectiveForHOBU(userId));
         }
+
         [HttpGet]
         [Route("GetIndividualEmployeeObjectiveById/{id}")]
         public IHttpActionResult GetIndividualEmployeeObjectiveById(string id)
@@ -74,6 +76,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("GetDeadline")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetDeadline()
         {
             HofBUData data = new HofBUData();
@@ -82,6 +85,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpGet]
         [Route("GetIncrementData")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetIncrementData()
         {
             HofBUData data = new HofBUData();

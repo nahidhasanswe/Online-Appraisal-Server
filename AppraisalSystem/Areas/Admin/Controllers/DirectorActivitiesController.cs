@@ -48,6 +48,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("ChangeObjectiveDeadLine")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult ChangeObjectiveDeadLine([FromBody]ChangingDeadlinePoco poco)
         {
             if (poco == null)
@@ -63,6 +64,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("ChangeJobDescriptionDeadLine")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult ChangeJobDescriptionDeadLine([FromBody]ChangingDeadlinePoco poco)
         {
             if (poco == null)

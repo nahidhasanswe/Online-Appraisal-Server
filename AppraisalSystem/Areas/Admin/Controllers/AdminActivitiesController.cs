@@ -15,6 +15,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
     {
         [HttpPost]
         [Route("SaveFiscalYear")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult SaveFiscalYear([FromBody]FiscalYear fiscalYear)
         {
             try
@@ -36,6 +37,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("MakeABudget")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult MakeABudget([FromBody]DirectorActivities directorActivities)
         {
             try
@@ -56,18 +58,16 @@ namespace AppraisalSystem.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [Route("SetObjectDeadline")]
-        public IHttpActionResult SetObjectDeadline([FromBody]DepartmentConfig config)
+        [Route("DeleteEmployee/{id}")]
+       // [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
+        public IHttpActionResult DeleteEmployee(string id)
         {
             try
             {
-                if (config == null)
-                {
-                    return BadRequest(ActionMessage.NullOrEmptyMessage);
-                }
-                AdminActivities activity = new AdminActivities(new UnitOfWork());
-                activity.CreatedBy = User.Identity.GetUserName();
-                activity.SetObjectDeadline(config);
+                AdminActivities activitie = new AdminActivities(new UnitOfWork());
+                activitie.CreatedBy = User.Identity.GetUserName();
+                activitie.DeleteEmployee(id);
                 return Ok(ActionMessage.SaveMessage);
             }
             catch (Exception EX_NAME)
@@ -76,9 +76,11 @@ namespace AppraisalSystem.Areas.Admin.Controllers
             }
         }
 
+
         [HttpPost]
-        [Route("SetAppraisalDeadline")]
-        public IHttpActionResult SetAppraisalDeadline([FromBody]DepartmentConfig config)
+        [Route("SetObjectDeadline")]
+        [Authorize(Roles = "Super Admin")]
+        public IHttpActionResult SetObjectDeadline([FromBody]DepartmentConfig config)
         {
             try
             {
@@ -96,8 +98,31 @@ namespace AppraisalSystem.Areas.Admin.Controllers
                 return BadRequest(EX_NAME.Message);
             }
         }
+
+        [HttpPost]
+        [Route("SetAppraisalDeadline")]
+        [Authorize(Roles = "Super Admin")]
+        public IHttpActionResult SetAppraisalDeadline([FromBody]DepartmentConfig config)
+        {
+            try
+            {
+                if (config == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                AdminActivities activity = new AdminActivities(new UnitOfWork());
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.SetSeflfAppraisalDeadline(config);
+                return Ok(ActionMessage.SaveMessage);
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
+        }
         [HttpPost]
         [Route("UpdateAppraisalDeadline")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult UpdateAppraisalDeadline([FromBody]DepartmentConfig config)
         {
             try
@@ -136,7 +161,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
                 return BadRequest(EX_NAME.Message);
             }
         }
-
+         
         [HttpGet]
         [Route("ApproveJobDescriptionByReportee/{id}")]
         public IHttpActionResult ApproveJobDescriptionByReportee(string id)
@@ -154,9 +179,10 @@ namespace AppraisalSystem.Areas.Admin.Controllers
             }
             catch (Exception EX_NAME)
             {
-                return BadRequest(EX_NAME.Message);
+                return BadRequest(EX_NAME.ToString());
             }
         }
+
         [HttpGet]
         [Route("ApproveObjectiveByReportee/{id}")]
         public IHttpActionResult ApproveObjectiveByReportee(string id)
@@ -181,6 +207,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("UpdateIncreamentTableData")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult UpdateIncreamentTableData([FromBody]Increament increament)
         {
             if (increament == null)

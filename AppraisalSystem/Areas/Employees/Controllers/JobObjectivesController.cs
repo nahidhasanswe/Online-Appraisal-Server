@@ -64,7 +64,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
                 var weight = list.Sum(a => a.Weight);
                 JobObjective activities = new JobObjective(new UnitOfWork());
                 activities.CreatedBy = User.Identity.GetUserName();
-                if (!validation.IsJobObjectiveDeadLineValid(activities.CreatedBy))
+                if (validation.IsJobObjectiveDeadLineValid(activities.CreatedBy))
                 {
                     return BadRequest("You have missed your deadline");
                 }

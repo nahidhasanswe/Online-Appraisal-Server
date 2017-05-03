@@ -24,7 +24,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             {
               var employee =
                 GetUnitOfWork()
-                    .EmployeeRepository.Get().Where(e => e.EmployeeId == id).ToList()
+                    .EmployeeRepository.Get().Where(e => e.EmployeeId == id && e.IsActive == true).ToList()
                     .Select(s => new
                      {
                         s.EmployeeId,
@@ -55,7 +55,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             {
              var employee =
                GetUnitOfWork()
-                   .EmployeeRepository.Get().Where(e => e.EmployeeId == id).ToList()
+                   .EmployeeRepository.Get().Where(e => e.EmployeeId == id && e.IsActive == true).ToList()
                    .Select(s => new
                    {
                        s.EmployeeId,
@@ -79,7 +79,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
         public object GetIndividualJobObjective(string id)
         {
             var objective = GetUnitOfWork().ObjectiveMainRepository.Get()
-                .Where(a => a.EmployeeId == id)
+                .Where(a => a.EmployeeId == id && a.IsActive == true)
                 .Select(s => new
                 {
                     s.Id,
@@ -110,7 +110,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
         public object GetJobObjectiveById(Guid objectiveId)
         {
             var objective = GetUnitOfWork().ObjectiveMainRepository.Get()
-                .Where(a => a.Id == objectiveId)
+                .Where(a => a.Id == objectiveId && a.IsActive == true)
                 .Select(s => new
                 {
                     s.Id,
@@ -142,7 +142,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
         {
             string reportToId = GetUnitOfWork()
                                 .EmployeeRepository.Get()
-                                .Where(a => a.EmployeeId == employeeId)
+                                .Where(a => a.EmployeeId == employeeId && a.IsActive == true)
                                 .Select(s => s.ReportTo)
                                 .FirstOrDefault();
 
@@ -166,7 +166,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
 
             var deptId = GetUnitOfWork()
                     .EmployeeRepository.Get()
-                    .Where(a => a.EmployeeId == userId)
+                    .Where(a => a.EmployeeId == userId && a.IsActive == true)
                     .Select(s => s.Section.DeparmentId)
                     .FirstOrDefault();
 
@@ -203,7 +203,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
             var employeess =
                 GetUnitOfWork()
                     .EmployeeRepository.Get()
-                    .Where(a => a.ReportTo == userId)
+                    .Where(a => a.ReportTo == userId && a.IsActive == true)
                     .Select(s => new
                     {
                         s.EmployeeId,
@@ -230,7 +230,7 @@ namespace Appraisal.BusinessLogicLayer.Employee
 
         public string GetEmployeeNameByEmployeeId(string id)
         {
-            return GetUnitOfWork().EmployeeRepository.Get().Where(x => x.EmployeeId == id).Select(s => s.EmployeeName).FirstOrDefault();
+            return GetUnitOfWork().EmployeeRepository.Get().Where(x => x.EmployeeId == id && x.IsActive == true).Select(s => s.EmployeeName).FirstOrDefault();
         }
 
         public UnitOfWork GetUnitOfWork()

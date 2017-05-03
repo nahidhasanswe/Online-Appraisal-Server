@@ -27,6 +27,7 @@ namespace AppraisalSystem.Areas.Core.Controllers
         }
         [HttpGet]
         [Route("GetEmployeeForTotalOrganogram")]
+        [Authorize(Roles = "Super Admin,Department Head")]
         public IHttpActionResult GetEmployeeForTotalOrganogram(string id)
         {
             try
@@ -39,9 +40,10 @@ namespace AppraisalSystem.Areas.Core.Controllers
                 return BadRequest(exName.Message);
             }
         }
-        [AllowAnonymous]
+
         [HttpGet]
         [Route("GetEmployeeNumberForSelfAppraisal")]
+        [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetEmployeeNumberForSelfAppraisal()
         {
             try
@@ -54,7 +56,8 @@ namespace AppraisalSystem.Areas.Core.Controllers
                 return BadRequest(exName.Message);
             } // 
         }
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Super Admin")]
         [HttpGet]
         [Route("GetEmployeeNumberForPerformenseAppraisal")]
         public IHttpActionResult GetEmployeeNumberForPerformenseAppraisal()
@@ -69,7 +72,8 @@ namespace AppraisalSystem.Areas.Core.Controllers
                 return BadRequest(exName.Message);
             }
         }
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Super Admin")]
         [HttpGet]
         [Route("GetEmployeeNumberForJobDescription")]
         public IHttpActionResult GetEmployeeNumberForJobDescription()

@@ -44,7 +44,7 @@ namespace Appraisal.BusinessLogicLayer.Core
                 GetUnitOfWork()
                     .EmployeeRepository.Get()
                     .Where(d => d.EmployeeId == employeeId && d.SelfAppraisalDeadline == null)
-                    .OrderByDescending(a => a.JobObjectiveDeadline)
+                    .OrderByDescending(a => a.SelfAppraisalDeadline)
                     .Any();
             return result;
         }

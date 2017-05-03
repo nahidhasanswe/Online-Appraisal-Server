@@ -16,7 +16,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
         {
             var main =
                 GetUnitOfWork()
-                    .EmployeeRepository.Get().Where(a=>a.EmployeeId != "0")
+                    .EmployeeRepository.Get().Where(a=>a.EmployeeId != "0" && a.IsActive == true)
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {
@@ -60,6 +60,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             var main =
                 GetUnitOfWork()
                     .ObjectiveSubRepository.Get()
+                    .Where(a=>a.ObjectiveMain.IsActive==true)
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {
@@ -97,7 +98,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             var main =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a=>a.TotalScore != null)
+                    .Where(a=>a.TotalScore != null && a.IsActive==true)
                     .Select(s => new
                     {
                         EmployeeId = s.EmployeeId,
@@ -131,6 +132,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             var main =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
+                    .Where(a=>a.IsActive == true)
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {
@@ -178,7 +180,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             var main =
                 GetUnitOfWork()
                     .ObjectiveMainRepository.Get()
-                    .Where(a=>a.EmployeeId == id)
+                    .Where(a=>a.EmployeeId == id && a.IsActive == true)
                     .OrderByDescending(o => o.CreatedDate)
                     .Select(s => new
                     {
@@ -247,7 +249,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
         public object GetDesignation()
         {
-            var sec = GetUnitOfWork().DesignationRepository.Get().Select(s => new
+            var sec = GetUnitOfWork().DesignationRepository.Get().OrderBy(a=>a.Name).Select(s => new
             {
                 Id = s.Id,
                 Designation = s.Name

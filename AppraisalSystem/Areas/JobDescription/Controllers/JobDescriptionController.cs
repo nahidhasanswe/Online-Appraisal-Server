@@ -12,49 +12,68 @@ namespace AppraisalSystem.Areas.JobDescription.Controllers
     [Authorize]
     public class JobDescriptionController : ApiController
     {
-        
+
         [HttpPost]
         [Route("Save")]
         public IHttpActionResult Save([FromBody] RepositoryPattern.JobDescription description)
         {
-            if (description == null)
+            try
             {
-                return BadRequest("Description can't be null or empty");
-            }
-          
-           JobDescriptionByEmployee employee = new JobDescriptionByEmployee();
-            Validation validation  = new Validation(new UnitOfWork());
-            employee.CreatedBy = User.Identity.GetUserName();
+                if (description == null)
+                {
+                    return BadRequest("Description can't be null or empty");
+                }
 
-            if (validation.HasSetJobDescription(employee.CreatedBy))
+                JobDescriptionByEmployee employee = new JobDescriptionByEmployee();
+                Validation validation = new Validation(new UnitOfWork());
+                employee.CreatedBy = User.Identity.GetUserName();
+
+                if (validation.HasSetJobDescription(employee.CreatedBy))
+                {
+                    return BadRequest("You already set a job description.");
+                }
+
+               
+                employee.Save(description);
+                return Ok("Congrats! Save successfully!");
+            }
+            catch (Exception EX_NAME)
             {
-                return BadRequest("You already set a job description.");
+                return BadRequest(EX_NAME.InnerException?.ToString());
             }
-
-            ReportToInfo info = validation.GetReportToByEmployeeId(employee.CreatedBy);
-           
-            
-            employee.Save(description);
-            return Ok("Congrats! Save successfully!");
         }
 
         [HttpGet]
         [Route("HasSetJobDescription")]
         public IHttpActionResult HasSetJobDescription()
         {
-            Validation validation = new Validation(new UnitOfWork());
-            string userId = User.Identity.GetUserName();
+            try
+            {
+                Validation validation = new Validation(new UnitOfWork());
+                string userId = User.Identity.GetUserName();
 
-            return Ok(validation.HasSetJobDescription(userId));
+                return Ok(validation.HasSetJobDescription(userId));
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
         [HttpGet]
         [Route("IsValidToUpdateJobDescription")]
         public IHttpActionResult IsValidToUpdateJobDescription(string id)
         {
-            Validation validation = new Validation(new UnitOfWork());
-           
-            return Ok(validation.IsValidToUpdateJobDescription(Guid.Parse(id)));
+            try
+            {
+                Validation validation = new Validation(new UnitOfWork());
+
+                return Ok(validation.IsValidToUpdateJobDescription(Guid.Parse(id)));
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
         }
 
         [HttpPost]

@@ -84,6 +84,7 @@ namespace AppraisalSystem.Models
         [Display(Name = "Confirm Password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+      
 
     }
 
@@ -112,5 +113,11 @@ namespace AppraisalSystem.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class UpdateRole
+    {
+        public string EmployeeId { get; set; }
+        public string Role { get; set; }
     }
 }
