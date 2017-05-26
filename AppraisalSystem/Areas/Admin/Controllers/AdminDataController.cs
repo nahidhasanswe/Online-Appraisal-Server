@@ -20,6 +20,16 @@ namespace AppraisalSystem.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllDeletedEmployees")]
+        [Authorize(Roles = "Super Admin")]
+        public IHttpActionResult GetAllDeletedEmployees()
+        {
+            AdminData data = new AdminData();
+            var emp = data.GetAllDeletedEmployees();
+            return Ok(emp);
+        }
+
+        [HttpGet]
         [Route("GetObjectiveByEmployeeId/{id}")]
         [Authorize(Roles = "Super Admin")]
         public IHttpActionResult GetObjectiveByEmployeeId(string id)

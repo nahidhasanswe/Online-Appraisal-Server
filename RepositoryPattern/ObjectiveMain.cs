@@ -12,7 +12,7 @@ namespace RepositoryPattern
     using System;
     using System.Collections.Generic;
     
-    public partial class ObjectiveMain
+    public partial class    ObjectiveMain
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ObjectiveMain()

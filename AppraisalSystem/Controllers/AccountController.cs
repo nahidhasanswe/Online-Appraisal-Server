@@ -20,6 +20,8 @@ using AppraisalSystem.Results;
 using AppraisalSln.Models;
 using RepositoryPattern;
 using Appraisal.BusinessLogicLayer.Employee;
+using AppraisalSystem.Services;
+using System.Configuration;
 
 namespace AppraisalSystem.Controllers
 {
@@ -110,8 +112,8 @@ namespace AppraisalSystem.Controllers
 
                 if (employee?.Email != null)
                 {
-                    var url = @"/#/login";
-                    await UserManager.SendEmailAsync(employee.Id, "Regisatration Confirmation", "Mr/s " + model.EmployeeName + "<br/> Your Registration is complete. Your password is: "+password+". please click <a href=\"" + new Uri(url) + "\">here</a> to login");
+                    var url = ConfigurationManager.AppSettings["ClientPath"] + @"/#/login";
+                    await UserManager.SendEmailAsync(employee.Id, "Regisatration Confirmation", "Mr/s " + model.EmployeeName + "<br/> Your Registration is complete. Your password is: "+password+". please click <a href=\"" + url + "\">here</a> to login");
                 }
                 return Ok("The Employee Password is " + password + " and Role is " + UserManager.GetRoles(user.Id).SingleOrDefault());
 
@@ -191,14 +193,14 @@ namespace AppraisalSystem.Controllers
                 {
                     var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                     code = WebUtility.UrlEncode(code);
-                    var url = "/#/ResetPassword?id=" + user.Id + "&code=" + code;
-
-                    await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + new Uri(url) + "\">here</a>");
+                    var url = ConfigurationManager.AppSettings["ClientPath"] + "/#/ResetPassword?id=" + user.Id + "&code=" + code;
+                    EmailNotifier mail = new EmailNotifier();
+                    mail.Send("Reset Password", "Please reset your password by clicking <a href=\"" +url + "\">here</a>", user.Email);
                     return Ok("Please check your Email and recovery Password");
                 }
                 catch (Exception e)
                 {
-                    return BadRequest(e.ToString());
+                    return BadRequest(e.Message);
                 }
             }
 

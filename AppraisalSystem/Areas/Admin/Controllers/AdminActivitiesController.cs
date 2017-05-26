@@ -3,6 +3,7 @@ using System.Web.Http;
 using Appraisal.BusinessLogicLayer.Admin;
 using Appraisal.BusinessLogicLayer.HBOU;
 using AppraisalSln.Models;
+using AppraisalSystem.Models;
 using Microsoft.AspNet.Identity;
 using RepositoryPattern;
 
@@ -15,7 +16,7 @@ namespace AppraisalSystem.Areas.Admin.Controllers
     {
         [HttpPost]
         [Route("SaveFiscalYear")]
-        [Authorize(Roles = "Super Admin")]
+        [Authorize(Roles = Roles.SuperAdmin)]
         public IHttpActionResult SaveFiscalYear([FromBody]FiscalYear fiscalYear)
         {
             try
@@ -68,6 +69,25 @@ namespace AppraisalSystem.Areas.Admin.Controllers
                 AdminActivities activitie = new AdminActivities(new UnitOfWork());
                 activitie.CreatedBy = User.Identity.GetUserName();
                 activitie.DeleteEmployee(id);
+                return Ok(ActionMessage.SaveMessage);
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("ActiveEmployee/{id}")]
+        // [Authorize(Roles = "Admin")]
+        [AllowAnonymous]
+        public IHttpActionResult ActiveEmployee(string id)
+        {
+            try
+            {
+                AdminActivities activitie = new AdminActivities(new UnitOfWork());
+                activitie.CreatedBy = User.Identity.GetUserName();
+                activitie.ActiveEmployee(id);
                 return Ok(ActionMessage.SaveMessage);
             }
             catch (Exception EX_NAME)

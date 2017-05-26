@@ -20,7 +20,13 @@ namespace Appraisal.BusinessLogicLayer.Employee
             var isExists = GetUnitOfWork().EmployeeRepository.Get().Where(a => a.EmployeeId == employee.EmployeeId).ToList();
             if (isExists.Any())
             {
-                
+                var aspUser = GetUnitOfWork().AspNetUsersRepository.Get().Where(a => a.UserName == employee.EmployeeId).FirstOrDefault();
+                if (employee.Email != null && String.IsNullOrEmpty(aspUser.Email))
+                {
+                    aspUser.Email = employee.Email;
+                    GetUnitOfWork().AspNetUsersRepository.Update(aspUser);
+                }               
+
                 employee.UpdatedBy = CreatedBy;
                 employee.IsActive = true;
                 employee.UpdatedDate = DateTime.Now;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Appraisal.BusinessLogicLayer.Core;
 using AppraisalSystem.Models;
 using RepositoryPattern;
 
@@ -24,14 +25,14 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
         public void SaveObjective(ObjectiveSub sub)
         {
-            //EmailNotifier notifier = new EmailNotifier();
+            EmailNotifier notifier = new EmailNotifier();
             InsertObjectiveSub(sub);
             GetUnitOfWork().Save();
 
             string email = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.Employee2?.Email;
             string sender = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.EmployeeName;
-            //if(email != null)
-            //notifier.Send("othersObjectives?id=" + CreatedBy, "Dear sir,\n I have submited my job objective on " + DateTime.Now.Date + ".", email, sender);
+            if (email != null)
+                notifier.Send("othersObjectives?id=" + CreatedBy, "Dear sir,\n I have submited my job objective on " + DateTime.Now.Date + ".", email, sender);
         }
 
         public void SavePerformanceAppraisal(List<PerformanceAppraisalPoco> list)
@@ -92,8 +93,9 @@ namespace Appraisal.BusinessLogicLayer.Admin
                     .Where(a => a.EmployeeId == CreatedBy && a.IsActive == true)
                     .Select(s => s.Id)
                     .FirstOrDefault();
-            var weight =
-              GetUnitOfWork().ObjectiveSubRepository.Get().Where(a => a.ObjectiveMainId == mainId).Sum(s => s.Weight) + sub.Weight;
+            int weight = 0;
+            if(mainId != Guid.Empty)
+            weight =  GetUnitOfWork().ObjectiveSubRepository.Get().Where(a => a.ObjectiveMainId == mainId).Sum(s => s.Weight??0) + sub.Weight??0;
 
             if (sub.Id != null)
             {

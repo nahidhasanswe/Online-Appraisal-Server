@@ -67,13 +67,40 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
         private void MakeDisableLastFiscalYear()
         {
-            var fisc = GetUnitOfWork().FiscalYearRepository.Get().OrderByDescending(c => c.CreatedDate).FirstOrDefault();
-            if (fisc != null)
+            bool act = DeativatePreviousObjective();
+            if (act)
             {
-                fisc.IsActive = false;
-                GetUnitOfWork().FiscalYearRepository.Update(fisc);
+                var fisc = GetUnitOfWork().FiscalYearRepository.Get().OrderByDescending(c => c.CreatedDate).FirstOrDefault();
+                if (fisc != null)
+                {
+                    fisc.IsActive = false;
+                    GetUnitOfWork().FiscalYearRepository.Update(fisc);
+                }
             }
+            else
+            {
+                throw new Exception("Employee's previous objective deactivation problem!");
+            }
+        }
 
+        private bool DeativatePreviousObjective()
+        {
+            var objs = GetUnitOfWork().ObjectiveMainRepository.Get().ToList();
+            foreach (var emp in objs)
+            {
+                try
+                {
+                    emp.IsActive = false;
+                    emp.UpdatedBy = CreatedBy;
+                    emp.UpdatedDate = DateTime.Now;
+                    GetUnitOfWork().ObjectiveMainRepository.Update(emp);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public void SetSeflfAppraisalDeadline(DepartmentConfig config)
@@ -93,8 +120,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
                 config.Id = Guid.NewGuid();
                 GetUnitOfWork().DepartmentConfigRepository.Insert(config);
             }
-
-            UpdateEmployeeForObjective(config);
+            UpdateEmployeeForAppraisal(config);
             GetUnitOfWork().Save();
         }
 
@@ -125,9 +151,9 @@ namespace Appraisal.BusinessLogicLayer.Admin
             {
                 config.UpdatedBy = CreatedBy;
                 config.UpdatedDate = DateTime.Now;
-                config.SelfAppraisalDeadline = configs.SelfAppraisalDeadline;
+                config.JobObjectiveDeadline = configs.JobObjectiveDeadline;
                 GetUnitOfWork().DepartmentConfigRepository.Update(config);
-                UpdateEmployeeForAppraisal(config);
+                UpdateEmployeeForObjective(config);
             }
             else
             {
@@ -167,6 +193,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             foreach (var employee in employees)
             {
                 employee.SelfAppraisalDeadline = config.SelfAppraisalDeadline;
+                employee.JobObjectiveDeadline = config.JobObjectiveDeadline;
                 employee.UpdatedBy = CreatedBy;
                 employee.UpdatedDate = DateTime.Now;
                 GetUnitOfWork().EmployeeRepository.Update(employee);
@@ -201,6 +228,21 @@ namespace Appraisal.BusinessLogicLayer.Admin
                     throw new Exception("The employee already deleted!");
                 }
                 emp.IsActive = false;
+                GetUnitOfWork().EmployeeRepository.Update(emp);
+                GetUnitOfWork().Save();
+            }
+        }
+
+        public void ActiveEmployee(string id)
+        {
+            var emp = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == id);
+            if (emp != null)
+            {
+                if (emp.IsActive == true)
+                {
+                    throw new Exception("The employee already active!");
+                }
+                emp.IsActive = true;
                 GetUnitOfWork().EmployeeRepository.Update(emp);
                 GetUnitOfWork().Save();
             }

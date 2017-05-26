@@ -49,7 +49,44 @@ namespace Appraisal.BusinessLogicLayer.Admin
             return main;
         }
 
-       private bool GetLock(string username)
+        public object GetAllDeletedEmployees()
+        {
+            var main =
+                GetUnitOfWork()
+                    .EmployeeRepository.Get().Where(a => a.EmployeeId != "0" && a.IsActive == false)
+                    .OrderByDescending(o => o.CreatedDate)
+                    .Select(s => new
+                    {
+                        s.EmployeeId,
+                        employeeName = s.EmployeeName,
+                        Email = s.Email,
+                        isHOBUConfirmed = s.JobDescription.Select(a => a.IsHOBUConfirmed).FirstOrDefault(),
+                        DesignationId = s.DesignationId,
+                        Designation = s.Designation.Name,
+                        SectionId = s.SectionId,
+                        Department = s.Section.Department.Name,
+                        DepartmentId = s.Section.DeparmentId,
+                        Section = s.Section.Name,
+                        EmployeeCompany = s.groups,
+                        ReportToCompany = s.Employee2.groups,
+                        Location = s.Location,
+                        JoiningDate = s.JoiningDate,
+                        ReportToName = s.Employee2.EmployeeName,
+                        ReportToDesignation = s.Employee2.Designation.Name,
+                        ReportToDepartment = s.Employee2.Section.Name,
+                        JobPurpose = s.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.JobPurposes).FirstOrDefault(),
+                        KeyAccountabilities = s.JobDescription.OrderByDescending(a => a.CreatedBy).Select(b => b.KeyAccountabilities).FirstOrDefault(),
+                        s.JobObjectiveDeadline,
+                        s.groups,
+                        s.ReportTo,
+                        s.SelfAppraisalDeadline,
+                        isLocked = GetLock(s.EmployeeId)
+                    })
+                    .ToList();
+            return main;
+        }
+
+        private bool GetLock(string username)
        {
            var firstOrDefault = GetUnitOfWork().AspNetUsersRepository.Get().FirstOrDefault(a => a.UserName == username);
            return firstOrDefault != null && (firstOrDefault.isLocked ?? false);

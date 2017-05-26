@@ -104,8 +104,7 @@ namespace AppraisalSystem.Areas.Employees.Controllers
                 return BadRequest(exception.Message);
             }
         }
-
-
+        
         [HttpPost]
         [Route("SaveDepartment")]
         [Authorize(Roles = "Super Admin")]

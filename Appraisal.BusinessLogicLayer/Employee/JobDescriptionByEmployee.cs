@@ -42,12 +42,12 @@ namespace Appraisal.BusinessLogicLayer.Employee
                 unitOfWork.JobDescriptionRepository.Insert(description);
             }
             unitOfWork.Save();
-            //string email = unitOfWork.EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.Employee2?.Email;
-            //string sender = unitOfWork.EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.EmployeeName;
+            string email = unitOfWork.EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.Employee2?.Email;
+            string sender = unitOfWork.EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.EmployeeName;
 
-            //EmailNotifier notifier = new EmailNotifier();
-            //if (email != null)
-            //notifier.Send("MyEmployee?id="+CreatedBy, "Dear sir,\n I have submited my job description on "+DateTime.Now.Date+ ".", email, sender);
+            EmailNotifier notifier = new EmailNotifier();
+            if (email != null)
+                notifier.Send("MyEmployee?id=" + CreatedBy, "Dear sir,\n I have submited my job description on " + DateTime.Now.Date + ".", email, sender);
         }
     }
 }
