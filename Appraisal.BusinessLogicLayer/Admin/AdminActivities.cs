@@ -180,6 +180,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             else
             {
                 throw new Exception("Job objective is not set yet");
+
             }
             GetUnitOfWork().Save();
         }
