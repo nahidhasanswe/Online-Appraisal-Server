@@ -31,8 +31,8 @@ namespace Appraisal.BusinessLogicLayer.Admin
 
             string email = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.Employee2?.Email;
             string sender = GetUnitOfWork().EmployeeRepository.Get().FirstOrDefault(a => a.EmployeeId == CreatedBy)?.EmployeeName;
-            if (email != null)
-                notifier.Send("othersObjectives?id=" + CreatedBy, "Dear sir,\n I have submited my job objective on " + DateTime.Now.Date + ".", email, sender);
+            if (String.IsNullOrEmpty(email))
+            notifier.Send("/#/othersObjectives?id=" + CreatedBy, "Dear sir,<br/> I have submited my job objective on " + DateTime.Now.Date + ".", email, sender);
         }
 
         public void SavePerformanceAppraisal(List<PerformanceAppraisalPoco> list)

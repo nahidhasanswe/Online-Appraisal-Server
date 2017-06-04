@@ -15,6 +15,20 @@ namespace Appraisal.BusinessLogicLayer.HBOU
             _unitOfWork = new UnitOfWork();
         }
 
+        public void AllowUpdateJobDescriptionByHOBU(string employeeId)
+        {
+            var desc = GetUnitOfWork().JobDescriptionRepository.Get().FirstOrDefault(a => a.EmployeeId == employeeId);
+            if (desc != null)
+            {
+                desc.IsHOBUConfirmed = false;
+                desc.HOBUConfirmedDate = DateTime.Now;
+                GetUnitOfWork().Save();
+            }
+            else
+            {
+                throw new Exception("This employee has not set his/her job description yet!");
+            }
+        }
         public void ApproveJobDescriptionByHOBU(string employeeId)
         {
             var desc = GetUnitOfWork().JobDescriptionRepository.Get().FirstOrDefault(a => a.EmployeeId == employeeId);

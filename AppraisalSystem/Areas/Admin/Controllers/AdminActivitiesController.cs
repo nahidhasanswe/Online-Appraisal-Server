@@ -181,7 +181,27 @@ namespace AppraisalSystem.Areas.Admin.Controllers
                 return BadRequest(EX_NAME.Message);
             }
         }
-         
+        [HttpGet]
+        [Route("AllowUpdateJobDescriptionByHOBU/{id}")]
+        public IHttpActionResult AllowUpdateJobDescriptionByHOBU(string id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                HboActivities activity = new HboActivities();
+                activity.CreatedBy = User.Identity.GetUserName();
+                activity.AllowUpdateJobDescriptionByHOBU(id);
+                return Ok(ActionMessage.SaveMessage);
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
+        }
+
         [HttpGet]
         [Route("ApproveJobDescriptionByReportee/{id}")]
         public IHttpActionResult ApproveJobDescriptionByReportee(string id)

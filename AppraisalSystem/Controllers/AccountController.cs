@@ -20,16 +20,16 @@ using AppraisalSystem.Results;
 using AppraisalSln.Models;
 using RepositoryPattern;
 using Appraisal.BusinessLogicLayer.Employee;
-using AppraisalSystem.Services;
-using System.Configuration;
 
 namespace AppraisalSystem.Controllers
 {
+
 
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private string clientside = System.Configuration.ConfigurationManager.AppSettings.Get("ClientPath");
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
@@ -112,8 +112,8 @@ namespace AppraisalSystem.Controllers
 
                 if (employee?.Email != null)
                 {
-                    var url = ConfigurationManager.AppSettings["ClientPath"] + @"/#/login";
-                    await UserManager.SendEmailAsync(employee.Id, "Regisatration Confirmation", "Mr/s " + model.EmployeeName + "<br/> Your Registration is complete. Your password is: "+password+". please click <a href=\"" + url + "\">here</a> to login");
+                    var url = clientside + "/#/login";
+                    await UserManager.SendEmailAsync(employee.Id, "Regisatration Confirmation", "Mr/s " + model.EmployeeName + "<br/> Your Registration is complete. Your password is: " + password + ". please click <a href=\"" + new Uri(url) + "\">here</a> to login");
                 }
                 return Ok("The Employee Password is " + password + " and Role is " + UserManager.GetRoles(user.Id).SingleOrDefault());
 
@@ -193,14 +193,14 @@ namespace AppraisalSystem.Controllers
                 {
                     var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                     code = WebUtility.UrlEncode(code);
-                    var url = ConfigurationManager.AppSettings["ClientPath"] + "/#/ResetPassword?id=" + user.Id + "&code=" + code;
-                    EmailNotifier mail = new EmailNotifier();
-                    mail.Send("Reset Password", "Please reset your password by clicking <a href=\"" +url + "\">here</a>", user.Email);
+                    var url = clientside + "/#/ResetPassword?id=" + user.Id + "&code=" + code;
+
+                    await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + new Uri(url) + "\">here</a>");
                     return Ok("Please check your Email and recovery Password");
                 }
                 catch (Exception e)
                 {
-                    return BadRequest(e.Message);
+                    return BadRequest(e.ToString());
                 }
             }
 
@@ -241,20 +241,60 @@ namespace AppraisalSystem.Controllers
         [Authorize(Roles = "Super Admin")]
         public async Task<IHttpActionResult> UpdateRole(UpdateRole role)
         {
-                var user = await UserManager.FindByNameAsync(role.EmployeeId); //UserManager.FindById(role.EmployeeId);
-                var oldRoleName = UserManager.GetRoles(user.Id).FirstOrDefault();
+            var user = await UserManager.FindByNameAsync(role.EmployeeId); //UserManager.FindById(role.EmployeeId);
+            var oldRoleName = UserManager.GetRoles(user.Id).FirstOrDefault();
 
-                if (oldRoleName.Equals(role.Role))
-                {
-                    return BadRequest("The Role is already assign to this employee");
-                }
+            if (oldRoleName.Equals(role.Role))
+            {
+                return BadRequest("The Role is already assign to this employee");
+            }
 
-                UserManager.RemoveFromRole(user.Id, oldRoleName);
-                UserManager.AddToRole(user.Id, role.Role);
+            UserManager.RemoveFromRole(user.Id, oldRoleName);
+            UserManager.AddToRole(user.Id, role.Role);
 
-                return Ok();
+            return Ok();
         }
 
+        [HttpPost]
+        [Route("Save")]
+        [Authorize(Roles = "Super Admin")]
+        public IHttpActionResult Update(Employee employee)
+        {
+            var user = UserManager.FindByName(employee.EmployeeId);
+            if (employee.Email != null)
+            {
+                user.Email = employee.Email;
+                UserManager.UpdateAsync(user);
+            }
+
+            try
+            {
+                if (employee == null)
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                if (string.IsNullOrEmpty(employee.EmployeeId) || string.IsNullOrEmpty(employee.EmployeeName) ||
+                    employee.SectionId == Guid.Empty || string.IsNullOrEmpty(employee.ReportTo))
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                if (employee.SectionId == null || employee.DesignationId == null)
+                {
+                    return BadRequest("Section or Department can't be empty!");
+                }
+
+                EmployeesActivities employees = new EmployeesActivities(new UnitOfWork());
+                employees.CreatedBy = User.Identity.GetUserName();
+                employees.Save(employee);
+
+                return Ok(ActionMessage.SaveMessage);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+
+        }
 
         [Route("SetLocked")]
         [HttpPost]
