@@ -16,7 +16,7 @@ using Microsoft.AspNet.Identity;
 
 namespace AppraisalSystem.Areas.Employees.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/Employees/JobObjectives")]
     public class JobObjectivesController : ApiController
     {
@@ -49,9 +49,9 @@ namespace AppraisalSystem.Areas.Employees.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("DeleteObjective")]
-        public IHttpActionResult DeleteObjective([FromBody]string id)
+        [HttpGet]
+        [Route("DeleteObjective/{id}")]
+        public IHttpActionResult DeleteObjective(string id)
         {
             try
             {

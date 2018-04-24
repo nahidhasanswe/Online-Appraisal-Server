@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -88,7 +89,7 @@
     </Reference>
     <Reference Include="RepositoryPattern, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\RepositoryPattern\bin\Debug\RepositoryPattern.dll</HintPath>
+      <HintPath>..\RepositoryPattern\obj\Debug\RepositoryPattern.dll</HintPath>
     </Reference>
     <Reference Include="SendGrid, Version=9.2.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <HintPath>..\packages\Sendgrid.9.2.0\lib\net452\SendGrid.dll</HintPath>
@@ -272,9 +273,6 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Areas\Core\Views\web.config" />
     <None Include="Properties\PublishProfiles\apihost.pubxml" />
     <Content Include="Web.config">

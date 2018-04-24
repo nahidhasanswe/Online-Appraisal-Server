@@ -182,9 +182,6 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="AppraisalModel.edmx.diagram">
       <DependentUpon>AppraisalModel.edmx</DependentUpon>
     </None>
