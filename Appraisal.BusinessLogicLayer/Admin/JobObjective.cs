@@ -35,6 +35,19 @@ namespace Appraisal.BusinessLogicLayer.Admin
             notifier.Send("/#/othersObjectives?id=" + CreatedBy, "Dear sir,<br/> I have submited my job objective on " + DateTime.Now.Date + ".", email, sender);
         }
 
+        public void DeleteObjective(string objectiveId)
+        {
+            var objective = GetUnitOfWork().ObjectiveSubRepository.Get(a => a.Id == objectiveId).FirstOrDefault();
+            if (objective != null)
+            {
+                GetUnitOfWork().ObjectiveSubRepository.Delete(objectiveId);
+            }
+            else
+            {
+                throw new Exception("This objective is not exists in Database.");
+            }
+        }
+
         public void SavePerformanceAppraisal(List<PerformanceAppraisalPoco> list)
         {
             var id = list.Select(s => s.ObjectiveId).FirstOrDefault();

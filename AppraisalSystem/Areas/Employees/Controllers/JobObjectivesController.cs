@@ -16,7 +16,7 @@ using Microsoft.AspNet.Identity;
 
 namespace AppraisalSystem.Areas.Employees.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api/Employees/JobObjectives")]
     public class JobObjectivesController : ApiController
     {
@@ -42,6 +42,33 @@ namespace AppraisalSystem.Areas.Employees.Controllers
 
                 activities.SaveObjective(sub);
                 return Ok(ActionMessage.SaveMessage);
+            }
+            catch (Exception EX_NAME)
+            {
+                return BadRequest(EX_NAME.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("DeleteObjective")]
+        public IHttpActionResult DeleteObjective([FromBody]string id)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(id))
+                {
+                    return BadRequest(ActionMessage.NullOrEmptyMessage);
+                }
+                Validation validation = new Validation(new UnitOfWork());
+                JobObjective activities = new JobObjective(new UnitOfWork());
+
+                if (validation.IsApproved(id))
+                {
+                    return BadRequest("Your job description is already approved!");
+                }
+
+                activities.DeleteObjective(id);
+                return Ok(ActionMessage.DeleteMessage);
             }
             catch (Exception EX_NAME)
             {

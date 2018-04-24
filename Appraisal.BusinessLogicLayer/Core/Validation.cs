@@ -86,6 +86,12 @@ namespace Appraisal.BusinessLogicLayer.Core
             return result;
         }
 
+        public bool IsApproved(string objectiveId)
+        {
+            var result = GetUnitOfWork().ObjectiveSubRepository.Get().FirstOrDefault(a =>  a.Id == objectiveId);
+            return  result != null && (result.IsObjectiveApproved ?? false);
+        }
+
         public ReportToInfo GetReportToByEmployeeId(string id)
         {
             var rId = GetUnitOfWork().EmployeeRepository.Get().Where(a => a.EmployeeId == id).Select(s => new ReportToInfo {
