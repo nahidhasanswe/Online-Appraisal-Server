@@ -41,6 +41,7 @@ namespace Appraisal.BusinessLogicLayer.Admin
             if (objective != null)
             {
                 GetUnitOfWork().ObjectiveSubRepository.Delete(objectiveId);
+                GetUnitOfWork().Save();
             }
             else
             {

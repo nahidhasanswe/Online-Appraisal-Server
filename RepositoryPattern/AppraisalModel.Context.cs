@@ -27,11 +27,11 @@ namespace RepositoryPattern
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<DepartmentConfig> DepartmentConfig { get; set; }
         public virtual DbSet<Designation> Designation { get; set; }
@@ -46,8 +46,6 @@ namespace RepositoryPattern
         public virtual DbSet<ObjectiveSub> ObjectiveSub { get; set; }
         public virtual DbSet<PerformanceAppraisal> PerformanceAppraisal { get; set; }
         public virtual DbSet<Section> Section { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<Company> Company { get; set; }
     
         public virtual int SP_GetEmployeeByReportToForOrganogram(string id)
         {

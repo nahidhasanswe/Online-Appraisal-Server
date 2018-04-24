@@ -114,9 +114,6 @@
     <Compile Include="Company.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="C__MigrationHistory.cs">
-      <DependentUpon>AppraisalModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Department.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
@@ -171,9 +168,6 @@
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_GetEmployeeByReportToForOrganogram_Result.cs">
-      <DependentUpon>AppraisalModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>AppraisalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="UnitOfWork.cs" />

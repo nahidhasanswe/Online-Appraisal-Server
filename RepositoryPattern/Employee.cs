@@ -42,6 +42,7 @@ namespace RepositoryPattern
         public Nullable<System.DateTime> SelfAppraisalDeadline { get; set; }
         public string groups { get; set; }
     
+        public virtual Company Company { get; set; }
         public virtual Designation Designation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DirectorActivities> DirectorActivities { get; set; }
@@ -55,6 +56,5 @@ namespace RepositoryPattern
         public virtual ICollection<ObjectiveMain> ObjectiveMain { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PerformanceAppraisal> PerformanceAppraisal { get; set; }
-        public virtual Company Company { get; set; }
     }
 }
